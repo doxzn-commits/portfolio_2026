@@ -1,0 +1,20 @@
+[00_integrated_claude_handoff_prompt.md](C:/Users/carpia b/Desktop/개인/carfia-backup/claude_history_transfer/00_integrated_claude_handoff_prompt.md)
+새 Claude에 그대로 붙여넣는 통합 인계 프롬프트
+
+[01_influencer_dashboard.md](C:/Users/carpia b/Desktop/개인/carfia-backup/claude_history_transfer/01_influencer_dashboard.md)
+인플루언서 대시보드 / Apps Script / 실시간 DB 분배 시스템
+
+[02_dealer_promotion_dashboard.md](C:/Users/carpia b/Desktop/개인/carfia-backup/claude_history_transfer/02_dealer_promotion_dashboard.md)
+딜러 프로모션 취합 / 프로모션 관리 / 협력업체 공유용
+
+[03_vehicle_tips_content_geo.md](C:/Users/carpia b/Desktop/개인/carfia-backup/claude_history_transfer/03_vehicle_tips_content_geo.md)
+차량 꿀팁 게시판 원고 / GEO 템플릿 / 색인 규칙
+
+[04_news_article_process.md](C:/Users/carpia b/Desktop/개인/carfia-backup/claude_history_transfer/04_news_article_process.md)
+뉴스 기사 생성 프로세스
+
+[05_onsite_terms_system.md](C:/Users/carpia b/Desktop/개인/carfia-backup/claude_history_transfer/05_onsite_terms_system.md)
+자사금융/타사금융/현금 관련 온사이트 용어 체계화
+
+[06_seo_geo_analyzer.md](C:/Users/carpia b/Desktop/개인/carfia-backup/claude_history_transfer/06_seo_geo_analyzer.md)
+SEO/GEO 측정 기준, 분석기 서비스 기획, CLI 구축 흐름

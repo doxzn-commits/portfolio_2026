@@ -1,0 +1,15 @@
+.env
+*.env
+node_modules/
+__pycache__/
+*.pyc
+*.log
+
+naver_state.json
+status.json
+carfia_service_account.json
+carfia-blog-extract.json
+*service_account*.json
+*secret*.json
+*.key
+*.pem
