@@ -18,3 +18,6 @@
 
 [06_seo_geo_analyzer.md](C:/Users/carpia b/Desktop/개인/carfia-backup/claude_history_transfer/06_seo_geo_analyzer.md)
 SEO/GEO 측정 기준, 분석기 서비스 기획, CLI 구축 흐름
+
+[13_내부_콘텐츠_자동화_발행_시스템_성과_포트폴리오.md]
+내부 게시판 AI 자동 발행 시스템 + 6월 AI 도입 전후 성과 비교 (클릭 16→329, 전환 0→4)
