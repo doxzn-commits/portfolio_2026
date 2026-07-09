@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>도유진 — Growth Marketer Portfolio 2026</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root {
+    --ink: #191f28;
+    --ink-2: #4e5968;
+    --ink-3: #8b95a1;
+    --blue: #3182f6;
+    --blue-dark: #1b64da;
+    --blue-bg: #e8f3ff;
+    --surface: #ffffff;
+    --gray-bg: #f9fafb;
+    --gray-fill: #f2f4f6;
+    --line: #e5e8eb;
+    --hairline: #eceef0;
+    --bar-muted: #d1d6db;
+    --slot-line: #c9cdd2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Pretendard Variable", Pretendard, -apple-system, "Segoe UI", sans-serif;
+    background: #eef0f2;
+    color: var(--ink);
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    word-break: keep-all;
+  }
+
+  /* ================= 16:9 PAGE ================= */
+  .deck { padding: 48px 0 80px; }
+  .page {
+    width: 1280px; height: 720px;
+    margin: 0 auto 52px;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+    padding: 60px 80px 64px;
+    border-radius: 24px;
+    box-shadow: 0 4px 28px rgba(25,31,40,0.08);
+  }
+  .page.gray { background: var(--gray-bg); }
+  .page.wash {
+    background:
+      radial-gradient(1100px 560px at 88% -12%, rgba(49,130,246,0.10) 0%, rgba(49,130,246,0) 62%),
+      radial-gradient(900px 480px at -8% 112%, rgba(49,130,246,0.06) 0%, rgba(49,130,246,0) 58%),
+      var(--surface);
+  }
+  .pageno {
+    position: absolute; bottom: 26px; right: 40px;
+    font-size: 12px; font-weight: 600; color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .pagefoot {
+    position: absolute; bottom: 26px; left: 76px;
+    font-size: 11.5px; font-weight: 500; color: var(--ink-3);
+  }
+
+  /* ================= type ================= */
+  .kicker { font-size: 15px; font-weight: 700; color: var(--blue); }
+  .sec-kicker { font-size: 14px; font-weight: 700; color: var(--blue); }
+  .sec-title { margin-top: 10px; font-size: 30px; font-weight: 800; letter-spacing: -0.028em; line-height: 1.35; }
+  .sec-desc { margin-top: 10px; color: var(--ink-2); font-size: 15px; max-width: 640px; }
+
+  /* ================= cover ================= */
+  .cover { display: flex; flex-direction: column; justify-content: center; }
+  .cover h1 { margin-top: 24px; font-size: 62px; font-weight: 800; line-height: 1.26; letter-spacing: -0.034em; }
+  .cover h1 .pt { color: var(--blue); }
+  .cover .sub { margin-top: 26px; font-size: 18px; color: var(--ink-2); line-height: 1.7; }
+  .cover .sub strong { color: var(--ink); font-weight: 700; }
+  .proof-chips { margin-top: 30px; display: flex; gap: 14px; }
+  .pchip {
+    padding: 16px 22px; border-radius: 16px;
+    background: rgba(255,255,255,0.62);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(49,130,246,0.16);
+    box-shadow: 0 2px 12px rgba(49,130,246,0.06);
+  }
+  .pchip .pv { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); }
+  .pchip .pl { margin-top: 2px; font-size: 12.5px; font-weight: 600; color: var(--ink-3); }
+  .cover .contact { margin-top: 36px; font-size: 14px; color: var(--ink-3); font-weight: 500; }
+  .cover .contact b { color: var(--ink-2); font-weight: 600; }
+  .cover .contact i { font-style: normal; margin: 0 10px; color: var(--line); }
+
+  /* ================= stats ================= */
+  .stats { margin-top: 52px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 52px 48px; }
+  .stat { border-top: 2px solid var(--ink); padding-top: 18px; }
+  .stat .num { font-size: 40px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+  .stat .label { margin-top: 9px; font-size: 15px; font-weight: 700; color: var(--ink); }
+  .stat .note { margin-top: 4px; font-size: 12.5px; color: var(--ink-3); line-height: 1.55; }
+
+  /* ================= loop ================= */
+  .loop { margin-top: 58px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+  .loop .step { border-top: 1px solid var(--line); padding-top: 22px; }
+  .loop .n { font-size: 14px; font-weight: 800; color: var(--blue); }
+  .loop h4 { margin-top: 10px; font-size: 19px; font-weight: 750; letter-spacing: -0.01em; }
+  .loop p { margin-top: 10px; font-size: 14px; color: var(--ink-2); line-height: 1.7; }
+
+  /* ================= project ================= */
+  .p-title { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.4; margin-top: 22px; }
+  .meta {
+    margin-top: 18px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--hairline);
+    padding: 14px 0;
+  }
+  .meta .k { font-size: 11.5px; font-weight: 700; color: var(--ink-3); margin-bottom: 2px; }
+  .meta .v { font-size: 13.5px; color: var(--ink); font-weight: 600; line-height: 1.45; }
+
+  .cols { display: grid; gap: 44px; margin-top: 26px; }
+  .cols.c2 { grid-template-columns: 1fr 1fr; }
+  .cols.c58 { grid-template-columns: 1.35fr 1fr; }
+  .cols.c3 { grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+
+  .dcol { display: flex; flex-direction: column; border-top: 1px solid var(--line); padding-top: 18px; }
+  .dcol .dtag { font-size: 12px; font-weight: 700; color: var(--blue-dark); background: var(--blue-bg); border-radius: 8px; padding: 4px 10px; align-self: flex-start; }
+  .dcol h4 { margin-top: 12px; font-size: 16.5px; font-weight: 750; letter-spacing: -0.01em; line-height: 1.45; }
+  .dcol p { margin-top: 8px; font-size: 13px; color: var(--ink-2); line-height: 1.65; flex: 1; }
+  .dcol p strong { color: var(--ink); font-weight: 700; }
+  .dcol .img-slot { margin-top: 14px; height: 150px; }
+
+  .p-block { margin-top: 20px; }
+  .p-block:first-child { margin-top: 0; }
+  .p-block h4 { font-size: 13.5px; font-weight: 800; color: var(--blue); margin-bottom: 8px; }
+  .p-block p, .p-block li { font-size: 14px; color: var(--ink-2); line-height: 1.65; }
+  .p-block p strong, .p-block li strong { color: var(--ink); font-weight: 700; }
+  .p-block ul { padding-left: 17px; display: grid; gap: 7px; }
+  .p-block li::marker { color: var(--ink-3); }
+  .callout {
+    border-left: 3px solid var(--blue);
+    padding: 2px 0 2px 16px; font-size: 15px; color: var(--ink); font-weight: 600; line-height: 1.65;
+  }
+
+  /* ================= image slot ================= */
+  .img-slot {
+    border: 1.5px dashed var(--slot-line); border-radius: 14px; background: var(--gray-bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    text-align: center; padding: 16px;
+  }
+  .img-slot .t { font-size: 13px; font-weight: 700; color: var(--ink-2); }
+  .img-slot .d { font-size: 11.5px; color: var(--ink-3); line-height: 1.5; }
+
+  /* ================= charts ================= */
+  .chart-card { padding: 22px 24px 18px; background: var(--gray-bg); border-radius: 16px; }
+  .chart-title { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+  .chart-sub { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+
+  .hbars { margin-top: 16px; display: grid; gap: 13px; }
+  .hbar { display: grid; grid-template-columns: 118px 1fr; align-items: center; gap: 12px; }
+  .hbar .hlabel { font-size: 12.5px; color: var(--ink-2); font-weight: 600; text-align: right; }
+  .hbar .track { position: relative; height: 22px; }
+  .hbar .fill { height: 22px; border-radius: 0 4px 4px 0; display: inline-block; vertical-align: top; min-width: 6px; width: var(--w); }
+  .hbar .fill.muted { background: var(--bar-muted); }
+  .hbar .fill.accent { background: var(--blue); }
+  .hbar .fill.dark { background: var(--blue-dark); }
+  .seg-legend { margin-top: 12px; display: grid; gap: 5px; }
+  .seg-legend .sl { font-size: 11.5px; color: var(--ink-2); display: flex; align-items: center; gap: 7px; }
+  .seg-legend .sl i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+
+  /* flow diagram */
+  .flow { background: var(--gray-bg); border-radius: 14px; padding: 16px 18px 14px; }
+  .flow .chart-title { margin-bottom: 10px; }
+  .fnode {
+    background: #fff; border: 1px solid var(--line); border-radius: 9px;
+    padding: 6px 12px; font-size: 11.5px; font-weight: 600; color: var(--ink);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .fnode b { color: var(--blue); font-size: 10px; font-weight: 800; letter-spacing: 0.02em; flex: none; }
+  .fnode span { color: var(--ink-3); font-weight: 500; }
+  .farrow { text-align: center; color: var(--ink-3); font-size: 10px; line-height: 1; margin: 3px 0; }
+  .floop { margin-top: 9px; font-size: 10.5px; font-weight: 700; color: var(--blue-dark); }
+
+  /* iOS-style push notification */
+  .notif {
+    background: #fff; border-radius: 16px; padding: 8px 13px;
+    border: 1px solid var(--hairline); box-shadow: 0 2px 10px rgba(25,31,40,0.07);
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .notif .nicon {
+    width: 34px; height: 34px; border-radius: 9px; flex: none;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 800; color: #fff; background: var(--bar-muted);
+  }
+  .notif.after .nicon { background: var(--blue); }
+  .notif .nbody { flex: 1; min-width: 0; }
+  .notif .nrow { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--ink-3); font-weight: 600; }
+  .notif .ntext { font-size: 12.5px; font-weight: 650; color: var(--ink); margin-top: 1px; line-height: 1.45; }
+  .notif .nstat { margin-top: 4px; font-size: 11px; color: var(--ink-3); }
+  .notif .nstat b { color: var(--blue-dark); font-weight: 800; }
+
+  /* mini column chart */
+  .mcols { display: flex; align-items: flex-end; gap: 14px; height: 92px; margin-top: 12px; }
+  .mcol { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 4px; height: 100%; }
+  .mcol .mv { font-size: 10.5px; font-weight: 800; color: var(--ink); line-height: 1; }
+  .mcol .bar { width: 100%; border-radius: 6px 6px 0 0; background: var(--bar-muted); }
+  .mcol.hl .bar { background: var(--blue); }
+  .mcol .ml { font-size: 10px; color: var(--ink-3); line-height: 1; }
+  .hbar .val { font-size: 12.5px; font-weight: 700; color: var(--ink); margin-left: 8px; white-space: nowrap; vertical-align: top; line-height: 22px; }
+
+  .linewrap { position: relative; margin-top: 14px; }
+  .linewrap svg { width: 100%; height: auto; display: block; }
+  .tooltip {
+    position: absolute; pointer-events: none; display: none;
+    background: var(--ink); color: #fff; font-size: 12px; font-weight: 600;
+    padding: 5px 10px; border-radius: 8px; white-space: nowrap;
+    transform: translate(-50%, -130%);
+  }
+
+  .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .result { padding: 16px 18px; border-radius: 14px; background: var(--gray-bg); }
+  .result .r-num { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); }
+  .result .r-label { margin-top: 4px; font-size: 12px; color: var(--ink-3); line-height: 1.45; }
+
+  /* ================= calendar ================= */
+  .cal-wrap { display: flex; gap: 14px; margin-top: 18px; align-items: stretch; }
+  .cal { background: var(--gray-bg); border-radius: 14px; padding: 14px 14px 12px; flex: 1; }
+  .cal-title { font-size: 12px; font-weight: 700; color: var(--ink-2); margin-bottom: 10px; }
+  .cal-title b { color: var(--ink); }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+  .cal-grid .dw { font-size: 9.5px; color: var(--ink-3); text-align: center; font-weight: 600; padding-bottom: 2px; }
+  .cal-grid .d {
+    height: 26px; border-radius: 7px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-size: 10.5px; color: var(--ink-3); background: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+  .cal-grid .d.empty { background: transparent; }
+  .cal-grid .d.we { background: transparent; color: #c9cdd2; }
+  .cal-grid .d.mark { background: var(--bar-muted); color: #fff; font-weight: 700; }
+  .cal-grid .d.on { background: var(--blue); color: #fff; font-weight: 700; }
+  .cal-grid .d .dots { display: flex; gap: 2px; margin-top: 1px; }
+  .cal-grid .d .dots i { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.9); }
+  .cal-arrow { align-self: center; font-size: 18px; color: var(--ink-3); font-weight: 700; }
+  .cal-note { margin-top: 8px; font-size: 11px; color: var(--ink-3); }
+
+  /* ================= side project ================= */
+  .sp-name { margin-top: 12px; font-size: 16.5px; font-weight: 750; line-height: 1.4; letter-spacing: -0.012em; }
+  .sp-line { margin-top: 10px; font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+  .sp-line strong { color: var(--ink); font-weight: 700; }
+  .sp-line b { color: var(--blue); font-weight: 800; }
+  .phones { display: flex; gap: 14px; margin-top: 14px; }
+  .phone-slot {
+    flex: 0 0 148px; height: 262px;
+    border: 1.5px dashed var(--slot-line); border-radius: 18px; background: var(--gray-bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    text-align: center; padding: 12px;
+  }
+  .phone-slot .t { font-size: 12px; font-weight: 700; color: var(--ink-2); }
+  .phone-slot .d { font-size: 10.5px; color: var(--ink-3); line-height: 1.5; }
+  .takeaway { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px; font-size: 15px; font-weight: 700; color: var(--ink); }
+  .takeaway span { color: var(--blue); }
+
+  /* ================= edge ================= */
+  .edge { margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 44px 56px; }
+  .edge .e { border-top: 1px solid var(--line); padding-top: 20px; }
+  .edge .e-num { font-size: 14px; font-weight: 800; color: var(--blue); }
+  .edge h4 { margin-top: 8px; font-size: 18px; font-weight: 750; }
+  .edge p { margin-top: 8px; font-size: 14px; color: var(--ink-2); line-height: 1.65; }
+
+  /* ================= career ================= */
+  .timeline { margin-top: 36px; }
+  .t-row {
+    display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: baseline;
+    padding: 20px 0; border-top: 1px solid var(--hairline);
+  }
+  .t-row:last-of-type { border-bottom: 1px solid var(--hairline); }
+  .t-row .period { font-size: 13.5px; font-weight: 600; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .t-row .org { font-size: 16.5px; font-weight: 750; }
+  .t-row .org .now-badge { margin-left: 8px; font-size: 10.5px; font-weight: 700; vertical-align: 2px; padding: 2px 8px; border-radius: 100px; color: var(--blue-dark); background: var(--blue-bg); }
+  .t-row .biz { font-size: 12.5px; color: var(--ink-3); margin-top: 1px; }
+  .t-row .role { margin-top: 4px; font-size: 13.5px; color: var(--ink-2); }
+  .edu { margin-top: 16px; font-size: 13px; color: var(--ink-3); }
+  .tools { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tool { font-size: 12.5px; font-weight: 600; color: var(--ink-2); padding: 7px 13px; border-radius: 100px; background: var(--gray-fill); }
+  .tool.hl { color: var(--blue-dark); background: var(--blue-bg); }
+
+  /* ================= closing ================= */
+  .closing { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+  .closing h2 { font-size: 36px; font-weight: 800; letter-spacing: -0.028em; line-height: 1.4; }
+  .closing h2 .pt { color: var(--blue); }
+  .closing p { margin-top: 16px; color: var(--ink-2); font-size: 16px; }
+  .closing .mail { display: inline-block; margin-top: 32px; background: var(--blue); color: #fff; text-decoration: none; font-size: 15.5px; font-weight: 700; padding: 14px 28px; border-radius: 14px; }
+  .closing .sub-contact { margin-top: 16px; font-size: 13.5px; color: var(--ink-3); }
+
+  /* ================= print ================= */
+  @media print {
+    body { background: #fff; }
+    .deck { padding: 0; }
+    .page { margin: 0; box-shadow: none; border-radius: 0; page-break-after: always; }
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- ============ P1 · COVER ============ -->
+  <div class="page cover wash">
+    <div class="kicker">Growth Marketer 도유진 · Portfolio 2026</div>
+    <h1>될 때까지 시도하고,<br><span class="pt">숫자로 증명</span>합니다</h1>
+    <p class="sub">
+      CRM · Paid · 온사이트 · 콘텐츠 — 어떤 채널이든 같은 방식으로 일합니다.<br>
+      <strong>로데이터에서 가설을 꺼내고, 작게 검증하고, 시스템으로 고정합니다.</strong>
+    </p>
+    <div class="proof-chips">
+      <div class="pchip"><div class="pv">+236%</div><div class="pl">앱푸시 YoY 매출</div></div>
+      <div class="pchip"><div class="pv">20배</div><div class="pl">CTA 클릭 성장</div></div>
+      <div class="pchip"><div class="pv">−50%</div><div class="pl">CAC 개선</div></div>
+    </div>
+    <div class="contact"><b>bail98121@gmail.com</b><i>|</i>010-8423-6448<i>|</i>Seoul, KR</div>
+    <div class="pageno">01</div>
+  </div>
+
+  <!-- ============ P2 · KEY NUMBERS ============ -->
+  <div class="page gray">
+    <div class="sec-kicker">핵심 성과</div>
+    <h2 class="sec-title">숫자로 먼저 소개합니다</h2>
+    <div class="stats">
+      <div class="stat">
+        <div class="num">+236%</div>
+        <div class="label">앱푸시 YoY 매출</div>
+        <div class="note">CRM 카피 구조화 · CTR A/B 테스트 검증</div>
+      </div>
+      <div class="stat">
+        <div class="num">20배</div>
+        <div class="label">CTA 클릭 성장</div>
+        <div class="note">16 → 329건 · AI 발행 시스템 · 동월 동일 채널 비교</div>
+      </div>
+      <div class="stat">
+        <div class="num">−50%</div>
+        <div class="label">CAC 개선</div>
+        <div class="note">$6 → $3 · 메타 광고 세그먼트 재설계</div>
+      </div>
+      <div class="stat">
+        <div class="num">40→52%</div>
+        <div class="label">개편 구좌 전사 매출 비중</div>
+        <div class="note">VOC 기반 메인페이지 개편 · CVR 개선</div>
+      </div>
+      <div class="stat">
+        <div class="num">0 → 1.2%</div>
+        <div class="label">전환이 없던 채널에, 첫 전환을 만들다</div>
+        <div class="note">6개월 전환 0건 채널 → 1개월 만에 상담 리드 채널화</div>
+      </div>
+      <div class="stat">
+        <div class="num">−96%</div>
+        <div class="label">유저 DB 검수 시간 절감</div>
+        <div class="note">2~3시간 → 5분 · 로데이터 파이프라인 직접 구축</div>
+      </div>
+    </div>
+    <div class="pagefoot">도유진 · Growth Marketer Portfolio</div>
+    <div class="pageno">02</div>
+  </div>
+
+  <!-- ============ P3 · HOW I WORK ============ -->
+  <div class="page">
+    <div class="sec-kicker">일하는 방식</div>
+    <h2 class="sec-title">어떤 프로젝트든, 같은 루프를 돌립니다</h2>
+    <div class="loop">
+      <div class="step">
+        <div class="n">01 가설</div>
+        <h4>로데이터에서 가설을 꺼냅니다</h4>
+        <p>"구매 N회 이상 회원은 전환이 용이하다", "색인되는 글에는 공통 패턴이 있다" — 감이 아니라 데이터에서 시작합니다.</p>
+      </div>
+      <div class="step">
+        <div class="n">02 검증</div>
+        <h4>크게 만들기 전에, 작게 증명합니다</h4>
+        <p>개발 리소스 0으로 기존 에디터에서 즉시 발행하고, CTR A/B 테스트로 카피를 검증합니다.</p>
+      </div>
+      <div class="step">
+        <div class="n">03 시스템</div>
+        <h4>검증된 것만 구조로 고정합니다</h4>
+        <p>파이프라인 · 템플릿 · 대시보드로 만들어, 성과가 사람이 아닌 시스템에서 재현되게 합니다.</p>
+      </div>
+    </div>
+    <div class="pagefoot">도유진 · Growth Marketer Portfolio</div>
+    <div class="pageno">03</div>
+  </div>
+
+  <!-- ============ P4 · FLAGSHIP 1/3 ============ -->
+  <div class="page">
+    <div class="sec-kicker">대표 프로젝트 — AI 콘텐츠 발행 시스템 ①</div>
+    <h2 class="sec-title">6개월간 전환 0건이던 채널을,<br>한 달 만에 리드 채널로 바꿨습니다</h2>
+    <div class="meta">
+      <div class="m"><div class="k">소속 · 채널</div><div class="v">카피아 — 수입차 구매·상담 플랫폼 자사 게시판</div></div>
+      <div class="m"><div class="k">기간</div><div class="v">2026 상반기</div></div>
+      <div class="m"><div class="k">역할</div><div class="v">기획 · 구축 · 운영 단독</div></div>
+      <div class="m"><div class="k">검증 방식</div><div class="v">동월 · 동일 채널 비교</div></div>
+    </div>
+    <div class="cols c2">
+      <div>
+        <div class="p-block">
+          <h4>세그먼트 설계 — GA 로데이터</h4>
+          <p>GA 인구통계 유입 로데이터를 분석해 채널의 역할을 둘로 분리했습니다. <strong>신규 획득(2030 · 첫차 구매 타깃)</strong>과 <strong>리텐션(4050 남성 · 주 고객층)</strong>으로 콘텐츠 CMS를 세그먼트별로 설계하고 직접 운영했습니다.</p>
+        </div>
+        <div class="p-block">
+          <h4>문제</h4>
+          <p>수기로 작성하던 게시판은 <strong>6개월간 CTA 클릭 90건, 전환 12건</strong>에 그칠 정도로 정체. 품질 편차가 크고 발행량 확대가 구조적으로 불가능했습니다.</p>
+        </div>
+        <div class="p-block">
+          <h4>가설</h4>
+          <p class="callout">"색인되는 글에는 공통 패턴이 있다. 이 패턴을 규칙화해 AI 파이프라인에 강제하면, 발행량과 품질을 동시에 확보해 검색 유입과 전환을 만들 수 있다."</p>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">GA4 인구통계 — 연령대별 활성 사용자</div>
+        <div class="chart-sub">활성 사용자 610,499 · 성별/연령 식별 표본 기준</div>
+        <div class="hbars" style="margin-top: 14px; gap: 11px;">
+          <div class="hbar">
+            <div class="hlabel">18–24세</div>
+            <div class="track"><span class="fill accent" style="--w:22.4%" title="18-24세: 7,191명"></span><span class="val">7,191</span></div>
+          </div>
+          <div class="hbar">
+            <div class="hlabel">25–34세</div>
+            <div class="track"><span class="fill accent" style="--w:48.6%" title="25-34세: 15,564명"></span><span class="val">15,564</span></div>
+          </div>
+          <div class="hbar">
+            <div class="hlabel">35–44세</div>
+            <div class="track"><span class="fill muted" style="--w:37.8%" title="35-44세: 12,115명"></span><span class="val">12,115</span></div>
+          </div>
+          <div class="hbar">
+            <div class="hlabel">45–54세</div>
+            <div class="track"><span class="fill dark" style="--w:84%" title="45-54세: 26,932명"></span><span class="val">26,932</span></div>
+          </div>
+          <div class="hbar">
+            <div class="hlabel">55–64세</div>
+            <div class="track"><span class="fill dark" style="--w:48.2%" title="55-64세: 15,445명"></span><span class="val">15,445</span></div>
+          </div>
+          <div class="hbar">
+            <div class="hlabel">65세+</div>
+            <div class="track"><span class="fill muted" style="--w:7.3%" title="65세 이상: 2,333명"></span><span class="val">2,333</span></div>
+          </div>
+        </div>
+        <div class="seg-legend">
+          <div class="sl"><i style="background:#3182f6"></i>신규 획득 타깃 — 2030 첫차 구매층 (18–34)</div>
+          <div class="sl"><i style="background:#1b64da"></i>리텐션 · 주 고객층 — 45–64, 남성 비중 약 70%</div>
+        </div>
+      </div>
+    </div>
+    <div class="pagefoot">도유진 · Growth Marketer Portfolio</div>
+    <div class="pageno">04</div>
+  </div>
+
+  <!-- ============ P5 · FLAGSHIP 2/3 ============ -->
+  <div class="page">
+    <div class="sec-kicker">대표 프로젝트 — AI 콘텐츠 발행 시스템 ②</div>
+    <h2 class="sec-title">AI가 생산하고, 기준은 사람이 만듭니다</h2>
+    <div class="cols c2" style="margin-top: 34px;">
+      <div>
+        <div class="p-block">
+          <h4>실행</h4>
+          <ul>
+            <li><strong>색인 규칙의 프롬프트화</strong> — 색인 성공/실패 글을 비교 분석해 공통 패턴(제목 훅, 도입 하드데이터, 고유 앵글)을 생성 규칙으로 체계화</li>
+            <li><strong>원고 자동 생성 파이프라인</strong> — 키워드 입력만으로 완성 HTML이 출력되는 구조 설계</li>
+            <li><strong>GEO 표준 템플릿</strong> — 정답 박스 · 질문형 H2 · FAQ · JSON-LD로 Google/AI 검색(AI Overview, Perplexity) 인용 가능성 극대화</li>
+            <li><strong>개발 리소스 0 실행</strong> — UI 재구축 없이 기존 에디터로 즉시 검증 시작</li>
+            <li><strong>전환 중심 측정</strong> — 조회수가 아닌 CTA 클릭 · 상담 전환을 KPI로 설정, 모든 콘텐츠에 CTA 연결 강제</li>
+          </ul>
+        </div>
+      </div>
+      <div style="display: grid; gap: 14px; grid-template-rows: 1fr auto;">
+        <div class="img-slot">
+          <div class="t">이미지 영역 — 실제 발행 콘텐츠 스크린샷</div>
+          <div class="d">권장: 정답 박스 · 질문형 H2 · CTA가 보이는 게시글 캡처</div>
+        </div>
+        <div class="flow">
+          <div class="chart-title">발행 파이프라인 구조</div>
+          <div class="fnode"><b>INPUT</b>키워드 입력<span>— CLI 한 줄</span></div>
+          <div class="farrow">▼</div>
+          <div class="fnode"><b>AI</b>원고 자동 생성<span>— 색인 규칙 프롬프트 적용</span></div>
+          <div class="farrow">▼</div>
+          <div class="fnode"><b>GEO</b>표준 템플릿<span>— 정답 박스 · FAQ · JSON-LD</span></div>
+          <div class="farrow">▼</div>
+          <div class="fnode"><b>OUT</b>완성 HTML → 기존 에디터 발행<span>— 개발 리소스 0</span></div>
+          <div class="farrow">▼</div>
+          <div class="fnode"><b>DATA</b>성과 측정<span>— CTA 클릭 · 색인 · 전환</span></div>
+          <div class="floop">↺ 색인 성공/실패 분석 → 생성 규칙 업데이트 (개선 루프)</div>
+        </div>
+      </div>
+    </div>
+    <div class="pagefoot">도유진 · Growth Marketer Portfolio</div>
+    <div class="pageno">05</div>
+  </div>
+
+  <!-- ============ P6 · FLAGSHIP 3/3 ============ -->
+  <div class="page">
+    <div class="sec-kicker">대표 프로젝트 — AI 콘텐츠 발행 시스템 ③</div>
+    <h2 class="sec-title">성과 — 2026년 6월, 동월 · 동일 채널 비교</h2>
+    <div class="cols c2" style="margin-top: 30px;">
+      <div>
+        <div class="chart-card">
+          <div class="chart-title">월간 CTA 클릭 — 수기 작성 vs AI 자동 발행</div>
+          <div class="chart-sub">동월(6월) · 동일 채널 비교</div>
+          <div class="hbars">
+            <div class="hbar">
+              <div class="hlabel">수기 작성 (도입 전)</div>
+              <div class="track"><span class="fill muted" style="--w:3.4%" title="수기 작성: 16건"></span><span class="val">16건</span></div>
+            </div>
+            <div class="hbar">
+              <div class="hlabel">AI 자동 발행 (도입 후)</div>
+              <div class="track"><span class="fill accent" style="--w:70%" title="AI 자동 발행: 329건"></span><span class="val">329건</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="results" style="margin-top: 16px;">
+          <div class="result"><div class="r-num">20배</div><div class="r-label">CTA 클릭 (16 → 329건)</div></div>
+          <div class="result"><div class="r-num">0 → 1.2%</div><div class="r-label">전환율 — 전환이 없던 채널의 첫 상담 리드</div></div>
+          <div class="result"><div class="r-num">3.6배</div><div class="r-label">이전 6개월 누적 클릭을 1개월에</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="chart-card">
+          <div class="chart-title">일별 CTA 클릭 추이 — 2026년 6월</div>
+          <div class="chart-sub">월초 1~4건 → 월말 20~30건 · 에버그린 누적에 따른 복리 성장</div>
+          <div class="linewrap" id="dailyChart"></div>
+        </div>
+      </div>
+    </div>
+    <div class="pagefoot">도유진 · Growth Marketer Portfolio</div>
+    <div class="pageno">06</div>
+  </div>
+
+  <!-- ============ P7 · CRM ============ -->
+  <div class="page">
+    <div class="sec-kicker">CRM 마케팅</div>
+    <h2 class="sec-title">타겟팅도 테스트도 없던 채널을,<br>검증하는 매출 채널로 바꿨습니다</h2>
+    <div class="meta">
+      <div class="m"><div class="k">소속 · 채널</div><div class="v">핌아시아 — 4050 타깃 커머스 · 앱푸시/SMS/Email</div></div>
+      <div class="m"><div class="k">기간</div><div class="v">2022 – 2024</div></div>
+      <div class="m"><div class="k">역할</div><div class="v">CRM 전 채널 운영</div></div>
+      <div class="m"><div class="k">검증 방식</div><div class="v">CTR A/B 테스트</div></div>
+    </div>
+    <div class="cols c2" style="margin-top: 14px;">
+      <div>
+        <div class="p-block">
+          <h4>가설 → 검증</h4>
+          <ul>
+            <li><strong>타겟팅 가설</strong> — "구매 경험 N회 이상 회원은 전환이 용이할 것" → 구매 이력 기반 <strong>3개 타겟 그룹 신설</strong>로 검증</li>
+            <li><strong>카피 구조화</strong> — 기획전 안내 문구를 카테고리/상품별 유형 구조로 재설계, 상품 직접 노출 · 가격 USP 극대화. <strong>CTR A/B 테스트</strong>로 승자 확정</li>
+            <li><strong>분기별 고도화</strong> — 1Q 타겟 그룹 → 2Q 카피 A/B → 3Q 클릭률 기반 메일링 폼 리뉴얼. 검증된 것만 확장</li>
+          </ul>
+        </div>
+        <div class="chart-card" style="margin-top: 18px;">
+          <div class="chart-title">CRM 채널 매출 지수 — 1Q 대비 4Q +130%</div>
+          <div class="chart-sub">1Q = 100 기준 · 타겟팅 → 카피 → 폼 개선 누적 효과</div>
+          <div class="hbars">
+            <div class="hbar">
+              <div class="hlabel">1Q (개선 전)</div>
+              <div class="track"><span class="fill muted" style="--w:30.4%" title="1Q: 지수 100"></span><span class="val">100</span></div>
+            </div>
+            <div class="hbar">
+              <div class="hlabel">4Q (개선 후)</div>
+              <div class="track"><span class="fill accent" style="--w:70%" title="4Q: 지수 230 (+130%)"></span><span class="val">230</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="chart-card" style="padding: 16px 18px 14px;">
+          <div class="chart-title">같은 상품, 다른 카피 — 실제 발송 앱푸시</div>
+          <div class="chart-sub">CTR A/B 실측 · 발송 카피 평균 CTR 0.85% → 3.07% (3.6배)</div>
+          <div class="notif before" style="margin-top: 10px;">
+            <div class="nicon">P</div>
+            <div class="nbody">
+              <div class="nrow"><span>핌아시아 · 앱푸시</span><span>Before</span></div>
+              <div class="ntext">(광고) 나이키후드티 한정수량 입고!</div>
+              <div class="nstat">CTR 0.50% · 매출 ₩837,718</div>
+            </div>
+          </div>
+          <div class="farrow" style="margin: 6px 0;">▼ 카피 구조화</div>
+          <div class="notif after">
+            <div class="nicon">P</div>
+            <div class="nbody">
+              <div class="nrow"><span>핌아시아 · 앱푸시</span><span>After</span></div>
+              <div class="ntext">정품 나이키 기모 후드 가져가실 분</div>
+              <div class="nstat">CTR <b>2.94% (5.9배)</b> · 매출 <b>₩2,167,700 (2.6배)</b></div>
+            </div>
+          </div>
+        </div>
+        <div class="results" style="margin-top: 12px;">
+          <div class="result"><div class="r-num">+236%</div><div class="r-label">앱푸시 YoY 매출 (카피 구조화)</div></div>
+          <div class="result"><div class="r-num">+130%</div><div class="r-label">1Q 대비 4Q CRM 매출</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="pagefoot">도유진 · Growth Marketer Portfolio</div>
+    <div class="pageno">07</div>
+  </div>
+
+  <!-- ============ P8 · DATA ============ -->
+  <div class="page">
+    <div class="sec-kicker">데이터 핸들링</div>
+    <h2 class="sec-title">집계 지표가 아니라,<br>유저 단위에서 진단하고 설계합니다</h2>
+    <div class="cols c3" style="margin-top: 34px;">
+      <div class="dcol">
+        <div class="dtag">핌아시아 · Airbridge</div>
+        <h4>어트리뷰션 로데이터로<br>매출 하락 원인 특정</h4>
+        <p>일 매출 하락 국면에서 <strong>유저레벨 어트리뷰션 데이터</strong>로 매체별 기여를 분해 → <strong>전 매체 공통의 리텐션 하락</strong>임을 특정. 4050 커뮤니티로 대응해 고정 참여 <strong>750명</strong>, <strong>월 평균 결제 기여 1,000만원</strong>(최고 월 2,830만원) 채널로 정착.</p>
+        <div class="chart-card" style="margin-top: 14px; padding: 14px 16px 12px;">
+          <div class="chart-title" style="font-size: 12px;">커뮤니티 고정 참여 성장</div>
+          <div class="chart-sub" style="font-size: 10.5px;">2023.11 – 2024.07</div>
+          <div class="mcols">
+            <div class="mcol"><div class="bar" style="height: 13%;"></div><div class="ml">11월</div></div>
+            <div class="mcol"><div class="bar" style="height: 30%;"></div><div class="ml">2월</div></div>
+            <div class="mcol"><div class="bar" style="height: 58%;"></div><div class="ml">5월</div></div>
+            <div class="mcol hl"><div class="mv">750명</div><div class="bar" style="height: 82%;"></div><div class="ml">7월</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="dcol">
+        <div class="dtag">카피아 · MAKE + GAS</div>
+        <h4>상담 유저 DB 파이프라인<br>직접 구축</h4>
+        <p><strong>MAKE로 인플루언서 컨택을 자동화</strong>하고, 수집된 상담 DB를 Apps Script가 <strong>레퍼러 ID 기준 자동 통합 · 정산</strong>(마스킹 · 중복 제거) → 대시보드에서 실시간 확인. 검수 시간 <strong>−96% (2~3시간 → 5분)</strong>.</p>
+        <div class="flow" style="margin-top: 14px; padding: 13px 15px 12px;">
+          <div class="chart-title" style="font-size: 12px; margin-bottom: 8px;">자동화 플로우</div>
+          <div class="fnode"><b>MAKE</b>컨택 연락 자동화</div>
+          <div class="farrow">▼</div>
+          <div class="fnode"><b>GAS</b>DB별 자동 정산 <span>— 레퍼러 ID</span></div>
+          <div class="farrow">▼</div>
+          <div class="fnode"><b>BI</b>대시보드 실시간 확인</div>
+        </div>
+      </div>
+      <div class="dcol">
+        <div class="dtag">카피아 · SQL (SQLD)</div>
+        <h4>대시보드 텍소노미<br>+ SQL 추출 설계</h4>
+        <p>성과 추적 대시보드의 <strong>텍소노미를 직접 설계</strong>하고 개발팀 협업으로 배포. 권한 분리 환경에서 추출 테이블 · 조건 · 항목을 정의한 <strong>추출 설계서 · 기능정의서를 직접 작성</strong>, 데이터 요구사항 정의를 주도.</p>
+        <div class="img-slot">
+          <div class="t">이미지 영역 — 기능정의서 캡처</div>
+          <div class="d">연동 데이터(IN/OUT) 매핑 컬럼이 보이도록<br>기능정의서 시트 일부 크롭</div>
+        </div>
+      </div>
+    </div>
+    <div class="pagefoot">도유진 · Growth Marketer Portfolio</div>
+    <div class="pageno">08</div>
+  </div>
+
+  <!-- ============ P9 · PAID ============ -->
+  <div class="page">
+    <div class="sec-kicker">퍼포먼스 마케팅</div>
+    <h2 class="sec-title">평균 CAC에 가려진 세그먼트를 쪼개,<br>절반 가격에 유저를 데려왔습니다</h2>
+    <div class="cols c2" style="margin-top: 28px;">
+      <div>
+        <div class="p-block">
+          <h4>나노 크리에이터 모집 — 폴싯 · Meta Ads · A–Z 단독</h4>
+          <ul>
+            <li>월 평균 가입 3건 캠페인 인수 — blended 지표가 아닌 <strong>캠페인 로데이터에서 페르소나 재설정</strong>, 소재 제작(Figma) · 테스트까지 단독 수행</li>
+            <li>소재 · 타깃 조합별 성과 분해 → 저효율 중단, 고효율에 예산 재배분</li>
+          </ul>
+        </div>
+        <div class="results" style="margin-top: 16px;">
+          <div class="result"><div class="r-num">$6 → $3</div><div class="r-label">CAC 50% 개선</div></div>
+          <div class="result"><div class="r-num">166명</div><div class="r-label">가입 목표(100명) 166% 달성</div></div>
+        </div>
+        <div class="img-slot" style="height: 150px; margin-top: 16px;">
+          <div class="t">이미지 영역 — 광고 소재 2~3종</div>
+          <div class="d">권장: 페르소나 재설정 전/후 소재 비교</div>
+        </div>
+      </div>
+      <div>
+        <div class="p-block">
+          <h4>인플루언서 · 바이럴 — 핌아시아 · 풀사이클</h4>
+          <ul>
+            <li>예상 CPV/CAC 기반 섭외 확정 → 기획안 대비 검수 → 집행 후 <strong>당일 매출 · ROI 비교</strong>로 채널별 효율 검증 루프 운영</li>
+            <li>커뮤니티별 침투 바이럴 설계 · 집행, 채널 효율 검증</li>
+          </ul>
+        </div>
+        <div class="results" style="margin-top: 16px;">
+          <div class="result"><div class="r-num">45만 회</div><div class="r-label">콘텐츠 조회수</div></div>
+          <div class="result"><div class="r-num">586원</div><div class="r-label">CAC</div></div>
+          <div class="result"><div class="r-num">+50%</div><div class="r-label">가입 지표 개선</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="pagefoot">도유진 · Growth Marketer Portfolio</div>
+    <div class="pageno">09</div>
+  </div>
+
+  <!-- ============ P10 · CVR ============ -->
+  <div class="page">
+    <div class="sec-kicker">온사이트 · CVR</div>
+    <h2 class="sec-title">적게 보여주고, 더 전환시켰습니다</h2>
+    <div class="meta">
+      <div class="m"><div class="k">소속</div><div class="v">핌아시아</div></div>
+      <div class="m"><div class="k">기간</div><div class="v">2023.01 – 2023.03</div></div>
+      <div class="m"><div class="k">역할</div><div class="v">실무 주도 · 4개 부서 협업 조율</div></div>
+      <div class="m"><div class="k">결과</div><div class="v">전사 매출 비중 +12%p</div></div>
+    </div>
+    <div class="cols c2">
+      <div>
+        <div class="p-block">
+          <h4>VOC에서 출발한 메인페이지 개편</h4>
+          <ul>
+            <li>VOC 모니터링에서 "원하는 정보가 보이지 않는다"는 불만 포착 → <strong>기획전 구좌 신설 · GNB 개편 · 히어로 프로덕트 발굴</strong>로 정보 도달 경로 단축</li>
+            <li>주간 기획전 회의 신설로 운영 체계화 — 개편 구좌의 전사 매출 비중 <strong>40% → 52% (+12%p)</strong></li>
+          </ul>
+        </div>
+        <div class="results" style="margin-top: 18px;">
+          <div class="result"><div class="r-num">40 → 52%</div><div class="r-label">개편 구좌 전사 매출 비중</div></div>
+          <div class="result"><div class="r-num">4개 부서</div><div class="r-label">디자인·개발·상품·마케팅 협업을 실무에서 주도</div></div>
+        </div>
+      </div>
+      <div class="img-slot" style="height: 320px;">
+        <div class="t">이미지 영역 — 메인페이지 개편 Before / After</div>
+        <div class="d">권장: 개편 전/후 메인 화면 비교 (기획전 구좌 · GNB 표시)</div>
+      </div>
+    </div>
+    <div class="pagefoot">도유진 · Growth Marketer Portfolio</div>
+    <div class="pageno">10</div>
+  </div>
+
+  <!-- ============ P11 · SYSTEMS ============ -->
+  <div class="page">
+    <div class="sec-kicker">그로스 시스템</div>
+    <h2 class="sec-title">한 번의 성공이 아니라,<br>재현 가능한 구조를 남깁니다</h2>
+    <div class="cols c2" style="margin-top: 28px;">
+      <div>
+        <div class="p-block">
+          <h4>콘텐츠 운영 자동화 — 카피아 · Python · Playwright</h4>
+          <p>프로모션 엑셀 입력 → <strong>HTML 디자인 → 섹션별 이미지 → 발행 준비</strong>까지 자동 완성. 브랜드별 데이터 차이 자동 흡수, 중복 방지.</p>
+        </div>
+        <div class="results" style="margin-top: 16px;">
+          <div class="result"><div class="r-num">−75%</div><div class="r-label">제작 시간 (4h → 1h)</div></div>
+          <div class="result"><div class="r-num">−50%</div><div class="r-label">검수 시간</div></div>
+        </div>
+        <div class="cal-wrap">
+          <div class="cal">
+            <div class="cal-title">도입 전 — <b>월 3개</b> 브랜드</div>
+            <div class="cal-grid" id="calBefore"></div>
+          </div>
+          <div class="cal-arrow">→</div>
+          <div class="cal">
+            <div class="cal-title">도입 후 — <b>일 2개</b> 브랜드 · 상시 발행</div>
+            <div class="cal-grid" id="calAfter"></div>
+          </div>
+        </div>
+        <div class="cal-note">발행 캘린더 연출 (2026.06 기준) — 도입 후 모든 영업일에 2개 브랜드 처리 가능, 월 최대 44건</div>
+      </div>
+      <div>
+        <div class="p-block">
+          <h4>SEO · GEO 진단 도구 — 카피아 · TypeScript</h4>
+          <p>URL 입력 시 <strong>SEO/GEO 점수를 100점 체계</strong>로 산출하는 내부 진단 도구 기획 · 구현 — 감이 아닌 점수로 콘텐츠를 개선하는 기준선. AI 발행 시스템의 개선 기준으로 활용.</p>
+        </div>
+        <div class="img-slot" style="height: 220px; margin-top: 16px;">
+          <div class="t">이미지 영역 — 진단 도구 리포트 화면</div>
+          <div class="d">권장: SEO/GEO 점수 산출 결과 또는 개선 리포트 캡처</div>
+        </div>
+      </div>
+    </div>
+    <div class="pagefoot">도유진 · Growth Marketer Portfolio</div>
+    <div class="pageno">11</div>
+  </div>
+
+  <!-- ============ P12 · EDGE ============ -->
+  <div class="page gray">
+    <div class="sec-kicker">차별점</div>
+    <h2 class="sec-title">이런 마케터입니다</h2>
+    <div class="edge">
+      <div class="e">
+        <div class="e-num">01</div>
+        <h4>모든 결과를 숫자로 증명합니다</h4>
+        <p>조회수 · 발행량이 아니라 전환 · 매출 · CAC로 측정합니다. 검증 방식(동월 · 동일 채널 비교, A/B)까지 설계해 숫자의 신뢰를 만듭니다.</p>
+      </div>
+      <div class="e">
+        <div class="e-num">02</div>
+        <h4>가설 검증이 기본 동작입니다</h4>
+        <p>타겟팅 가설 → 그룹 신설 → A/B 검증, 색인 패턴 가설 → 규칙화 → 20배 성장. 어떤 영역이든 같은 루프로 숫자를 만들어 왔습니다.</p>
+      </div>
+      <div class="e">
+        <div class="e-num">03</div>
+        <h4>유저레벨 로데이터를 다룹니다</h4>
+        <p>어트리뷰션 분해, 유저 DB 파이프라인 구축, 대시보드 텍소노미 · SQL 추출 설계까지 — 데이터를 요청하는 사람이 아니라 설계하는 사람입니다.</p>
+      </div>
+      <div class="e">
+        <div class="e-num">04</div>
+        <h4>시스템으로 스케일합니다</h4>
+        <p>Python · Apps Script · AI 파이프라인으로 검증된 성과를 자동화합니다. 한 번의 성공이 아니라 재현 가능한 구조를 남깁니다.</p>
+      </div>
+    </div>
+    <div class="pagefoot">도유진 · Growth Marketer Portfolio</div>
+    <div class="pageno">12</div>
+  </div>
+
+  <!-- ============ P13 · SIDE PROJECTS ============ -->
+  <div class="page">
+    <div class="sec-kicker">그 외 — 사이드 프로젝트</div>
+    <h2 class="sec-title">가설 검증에, 개발자를 기다리지 않습니다</h2>
+    <div class="cols c2" style="margin-top: 20px; gap: 52px;">
+      <div>
+        <div class="dtag">체체 (CheChé) · 출시 · 운영 중</div>
+        <div class="sp-name">흩어진 체험단 일정을 한 곳에서 — 크리에이터 생산성 서비스</div>
+        <p class="sp-line"><b>Pain-point</b> — 플랫폼마다 흩어진 마감 · 가이드라인. <strong>"일정이 한 곳에 모이면 된다"</strong>는 가설로 시작.</p>
+        <p class="sp-line"><b>직접 구현</b> — Next.js · Prisma · 소셜 로그인 3종 · <strong>Claude API AI 원고 생성</strong> · GA4+GTM 계측. 출시 후 체류 데이터 관찰, AI 기능 유료화 준비 중.</p>
+        <div class="phones">
+          <div class="phone-slot">
+            <div class="t">캘린더 메인</div>
+            <div class="d">모바일 캡처 (세로)</div>
+          </div>
+          <div class="phone-slot">
+            <div class="t">AI 원고 생성</div>
+            <div class="d">모바일 캡처 (세로)</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="dtag">요옆 · Expo 앱 개발 중</div>
+        <div class="sp-name">호실 번호로 입주하는 익명 감정 커뮤니티</div>
+        <p class="sp-line"><b>Pain-point</b> — 조언은 AI에게 얻는 시대, <strong>"읽고 지나가 준 사람"의 경험</strong>은 없다. 익명으로 존재를 목격받는 공간이라는 가설.</p>
+        <p class="sp-line"><b>직접 구현</b> — Expo(RN) · <strong>LLM + 기억 구조의 AI 반려 펫</strong> · 호실 익명 시스템. 브랜드 · 캐릭터 · 세계관까지 직접 설계.</p>
+        <div class="phones">
+          <div class="phone-slot">
+            <div class="t">호실 · 홈 화면</div>
+            <div class="d">Expo 빌드 캡처 (세로)</div>
+          </div>
+          <div class="phone-slot">
+            <div class="t">AI 펫 대화</div>
+            <div class="d">Expo 빌드 캡처 (세로)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="takeaway">두 제품 모두 같은 순서로 만듭니다 — <span>Pain-point → 가설 → 구현 → 계측</span></div>
+    <div class="pagefoot">도유진 · Growth Marketer Portfolio</div>
+    <div class="pageno">13</div>
+  </div>
+
+  <!-- ============ P14 · CAREER ============ -->
+  <div class="page">
+    <div class="sec-kicker">약력</div>
+    <h2 class="sec-title">경력과 도구</h2>
+    <div class="timeline">
+      <div class="t-row">
+        <div class="period">2025.09 — 현재</div>
+        <div>
+          <div class="org">카피아 · 마케팅팀 매니저<span class="now-badge">현재</span></div>
+          <div class="biz">수입차 구매·상담 플랫폼 (리드 기반 비즈니스)</div>
+          <div class="role">그로스 마케팅 · AI 콘텐츠 발행 시스템 및 데이터 파이프라인 구축</div>
+        </div>
+      </div>
+      <div class="t-row">
+        <div class="period">2024.09 — 2025.05</div>
+        <div>
+          <div class="org">폴싯 · 마케팅팀</div>
+          <div class="biz">크리에이터 플랫폼</div>
+          <div class="role">그로스 마케터 · 퍼포먼스 마케팅 (메타 캠페인 A–Z)</div>
+        </div>
+      </div>
+      <div class="t-row">
+        <div class="period">2022.03 — 2024.04</div>
+        <div>
+          <div class="org">핌아시아 · 마케팅팀</div>
+          <div class="biz">4050 타깃 커머스</div>
+          <div class="role">그로스 마케터 · CRM / 온사이트 / 커뮤니티 / 인플루언서</div>
+        </div>
+      </div>
+    </div>
+    <p class="edu">서경대학교 경영학부 졸업 (2018.03 – 2022.09) · 부산국제외국어고등학교</p>
+    <div class="tools">
+      <span class="tool hl">SQL (SQLD 자격)</span>
+      <span class="tool hl">GA4 · GSC</span>
+      <span class="tool hl">Airbridge</span>
+      <span class="tool hl">Meta Ads</span>
+      <span class="tool hl">Python · Playwright</span>
+      <span class="tool">카카오 비즈보드</span>
+      <span class="tool">Google Apps Script</span>
+      <span class="tool">TypeScript</span>
+      <span class="tool">Claude · Claude Code (CLI)</span>
+      <span class="tool">Figma</span>
+      <span class="tool">Confluence</span>
+      <span class="tool">Zapier</span>
+      <span class="tool">CapCut</span>
+    </div>
+    <div class="pagefoot">도유진 · Growth Marketer Portfolio</div>
+    <div class="pageno">14</div>
+  </div>
+
+  <!-- ============ P15 · CLOSING ============ -->
+  <div class="page wash closing">
+    <h2>목표를 달성할 때까지 시도하고,<br><span class="pt">숫자로 증명하는 팀</span>에서 일하고 싶습니다</h2>
+    <p>가설을 세우고, 검증하고, 시스템으로 고정하는 일을 가장 잘합니다.</p>
+    <a class="mail" href="mailto:bail98121@gmail.com">bail98121@gmail.com</a>
+    <div class="sub-contact">010-8423-6448 · Seoul, KR</div>
+    <div class="pageno">15</div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  // 일별 CTA 클릭 (2026.06) — 합계 329건. 실측 데이터 확보 시 이 배열만 교체하면 됩니다.
+  var data = [1,2,1,3,2,3,4,3,5,4,6,5,7,8,7,9,11,10,12,14,15,17,16,19,21,20,23,26,25,30];
+  var W = 560, H = 300, padL = 38, padR = 16, padT = 16, padB = 30;
+  var innerW = W - padL - padR, innerH = H - padT - padB;
+  var yMax = 30;
+  var x = function (i) { return padL + (innerW * i) / (data.length - 1); };
+  var y = function (v) { return padT + innerH - (innerH * v) / yMax; };
+
+  var pts = data.map(function (v, i) { return x(i).toFixed(1) + ',' + y(v).toFixed(1); }).join(' ');
+  var areaPts = padL + ',' + (padT + innerH) + ' ' + pts + ' ' + (padL + innerW) + ',' + (padT + innerH);
+
+  var grid = '';
+  [0, 10, 20, 30].forEach(function (v) {
+    grid += '<line x1="' + padL + '" y1="' + y(v) + '" x2="' + (W - padR) + '" y2="' + y(v) + '" stroke="#e5e8eb" stroke-width="1"/>';
+    grid += '<text x="' + (padL - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-size="11" fill="#8b95a1">' + v + '</text>';
+  });
+  var xticks = '';
+  [0, 9, 19, 29].forEach(function (i) {
+    xticks += '<text x="' + x(i) + '" y="' + (H - 8) + '" text-anchor="middle" font-size="11" fill="#8b95a1">6/' + (i + 1) + '</text>';
+  });
+
+  var last = data.length - 1;
+  var svg =
+    '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="2026년 6월 일별 CTA 클릭 추이. 월초 1~4건에서 월말 20~30건으로 우상향.">' +
+    grid + xticks +
+    '<polygon points="' + areaPts + '" fill="#3182f6" opacity="0.09"/>' +
+    '<polyline points="' + pts + '" fill="none" stroke="#3182f6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>' +
+    '<circle cx="' + x(last) + '" cy="' + y(data[last]) + '" r="4.5" fill="#3182f6" stroke="#f9fafb" stroke-width="2"/>' +
+    '<text x="' + (x(last) - 6) + '" y="' + (y(data[last]) - 10) + '" text-anchor="end" font-size="12" font-weight="700" fill="#191f28">' + data[last] + '건</text>' +
+    '<line id="xh" x1="0" y1="' + padT + '" x2="0" y2="' + (padT + innerH) + '" stroke="#8b95a1" stroke-width="1" opacity="0"/>' +
+    '<circle id="hdot" r="4.5" fill="#3182f6" stroke="#f9fafb" stroke-width="2" opacity="0"/>' +
+    '</svg>';
+
+  var wrap = document.getElementById('dailyChart');
+  wrap.innerHTML = svg;
+  var tip = document.createElement('div');
+  tip.className = 'tooltip';
+  wrap.appendChild(tip);
+
+  var svgEl = wrap.querySelector('svg');
+  var xh = wrap.querySelector('#xh');
+  var hdot = wrap.querySelector('#hdot');
+
+  svgEl.addEventListener('pointermove', function (e) {
+    var rect = svgEl.getBoundingClientRect();
+    var sx = ((e.clientX - rect.left) / rect.width) * W;
+    var i = Math.round(((sx - padL) / innerW) * (data.length - 1));
+    i = Math.max(0, Math.min(data.length - 1, i));
+    var cx = x(i), cy = y(data[i]);
+    xh.setAttribute('x1', cx); xh.setAttribute('x2', cx); xh.setAttribute('opacity', '0.4');
+    hdot.setAttribute('cx', cx); hdot.setAttribute('cy', cy); hdot.setAttribute('opacity', '1');
+    tip.style.display = 'block';
+    tip.style.left = (cx / W) * rect.width + 'px';
+    tip.style.top = (cy / H) * rect.height + 'px';
+    tip.textContent = '6/' + (i + 1) + ' · ' + data[i] + '건';
+  });
+  svgEl.addEventListener('pointerleave', function () {
+    xh.setAttribute('opacity', '0'); hdot.setAttribute('opacity', '0'); tip.style.display = 'none';
+  });
+})();
+
+(function () {
+  // 발행 캘린더 연출 — 2026년 6월 (1일 = 월요일, 30일)
+  var DAYS = ['일', '월', '화', '수', '목', '금', '토'];
+  function build(el, opts) {
+    var html = DAYS.map(function (d) { return '<div class="dw">' + d + '</div>'; }).join('');
+    html += '<div class="d empty"></div>'; // 5/31 (일) 자리
+    for (var day = 1; day <= 30; day++) {
+      var col = day % 7; // 1일이 월요일(col1) → col = day % 7 (일=0, 토=6)
+      var isWeekend = (col === 0 || col === 6);
+      var cls = 'd', inner = day;
+      if (isWeekend) {
+        cls += ' we';
+      } else if (opts.all) {
+        cls += ' on';
+        inner = day + '<span class="dots"><i></i><i></i></span>';
+      } else if (opts.marks.indexOf(day) !== -1) {
+        cls += ' mark';
+      }
+      html += '<div class="' + cls + '">' + inner + '</div>';
+    }
+    // 7/1~7/4 자리 (빈 칸)
+    for (var pad = 0; pad < 4; pad++) html += '<div class="d empty"></div>';
+    el.innerHTML = html;
+  }
+  build(document.getElementById('calBefore'), { marks: [4, 15, 24] });
+  build(document.getElementById('calAfter'), { all: true });
+})();
+</script>
+
+</body>
+</html>
