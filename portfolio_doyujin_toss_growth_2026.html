@@ -396,7 +396,7 @@
         </div>
         <div class="p-block">
           <h4>문제</h4>
-          <p>수기로 작성하던 게시판은 <strong>6개월간 CTA 클릭 90건, 전환 12건</strong>에 그칠 정도로 정체. 품질 편차가 크고 발행량 확대가 구조적으로 불가능했습니다.</p>
+          <p>수기로 작성하던 게시판은 <strong>6개월간 CTA 클릭 91건, 전환 6건</strong>에 그칠 정도로 정체. 품질 편차가 크고 발행량 확대가 구조적으로 불가능했습니다.</p>
         </div>
         <div class="p-block">
           <h4>가설</h4>
@@ -511,8 +511,8 @@
       </div>
       <div>
         <div class="chart-card">
-          <div class="chart-title">일별 CTA 클릭 추이 — 2026년 6월</div>
-          <div class="chart-sub">월초 1~4건 → 월말 20~30건 · 에버그린 누적에 따른 복리 성장</div>
+          <div class="chart-title">일별 CTA 클릭 추이 — 2026년 6월 (실측)</div>
+          <div class="chart-sub">월초 하루 1~8건 → 월말 하루 14~30건 · 에버그린 누적에 따른 복리 성장</div>
           <div class="linewrap" id="dailyChart"></div>
         </div>
       </div>
@@ -887,11 +887,11 @@
 
 <script>
 (function () {
-  // 일별 CTA 클릭 (2026.06) — 합계 329건. 실측 데이터 확보 시 이 배열만 교체하면 됩니다.
-  var data = [1,2,1,3,2,3,4,3,5,4,6,5,7,8,7,9,11,10,12,14,15,17,16,19,21,20,23,26,25,30];
+  // 일별 CTA 클릭 (2026.06) — 실측값. 출처: source_materials/AI 도입 전후 비교 (6월).xlsx, 합계 329건.
+  var data = [3,8,2,4,3,1,2,3,0,10,6,16,5,4,20,9,13,16,4,8,21,18,10,21,17,20,30,18,14,23];
   var W = 560, H = 300, padL = 38, padR = 16, padT = 16, padB = 30;
   var innerW = W - padL - padR, innerH = H - padT - padB;
-  var yMax = 30;
+  var yMax = 32;
   var x = function (i) { return padL + (innerW * i) / (data.length - 1); };
   var y = function (v) { return padT + innerH - (innerH * v) / yMax; };
 
@@ -910,7 +910,7 @@
 
   var last = data.length - 1;
   var svg =
-    '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="2026년 6월 일별 CTA 클릭 추이. 월초 1~4건에서 월말 20~30건으로 우상향.">' +
+    '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="2026년 6월 일별 CTA 클릭 추이. 월초 하루 1~8건에서 월말 하루 14~30건으로 우상향.">' +
     grid + xticks +
     '<polygon points="' + areaPts + '" fill="#3182f6" opacity="0.09"/>' +
     '<polyline points="' + pts + '" fill="none" stroke="#3182f6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>' +
