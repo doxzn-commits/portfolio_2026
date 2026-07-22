@@ -143,12 +143,11 @@
 
 ### GitHub 연동 상태
 
-**2026-07-22 기준: GitHub → Vercel 자동 배포 연동 설정 중.**
-그 전까지는 로컬에서 `vercel --yes --prod`로 수동 배포했다 (Git을 거치지 않음).
+**2026-07-22 완료.** Vercel REST API로 직접 연결함 (`POST /v9/projects/{id}/link`,
+`PATCH /v9/projects/{id}` rootDirectory). 이 커밋이 그 연동을 검증하는 테스트 푸시다.
 
-연동이 완료되면: `git push origin main` → Vercel 자동 재배포.
-연동 설정은 Vercel 대시보드 → doyujin-portfolio → Settings → Git 에서
-`doxzn-commits/portfolio_2026` 저장소 연결 + Root Directory `web_prototype` 지정.
+`git push origin main` → Vercel이 자동 재배포한다. 더 이상 `vercel --prod` 수동 배포 불필요.
+Root Directory는 `web_prototype`으로 지정돼 있다 (저장소 루트가 아님 — index.html 위치).
 
 ## 환경
 
