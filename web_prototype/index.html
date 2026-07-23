@@ -544,7 +544,7 @@ function clamp(v){return Math.max(0,Math.min(P.length-1,v))}
 
 /* 휠 */
 addEventListener('wheel',e=>{
-  if(CFG.mobile) return;
+  if(CFG.mobile||detail.classList.contains('on')) return;   // 상세 화면에서는 네이티브 스크롤 허용
   e.preventDefault();
   target=clamp(target+e.deltaY/PX_PER_CARD); start();
 },{passive:false});
