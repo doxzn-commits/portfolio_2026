@@ -21,12 +21,15 @@
 
 ---
 
-## 코드 위치 (이 저장소 밖)
+## 코드 위치
 
-게시판 운영과 같은 원칙 — 산출물 코드는 작업 폴더에, **기록·인계 문서는 이 저장소에**.
+**2026-07-28부터 코드도 이 저장소에 백업됨** → `carfia-backup/carfia-intro/`
+(node_modules·.next는 `.gitignore` 제외. `npm install` 후 `npm run dev`, 포트 3210).
+작업은 원본 폴더에서 하고, 변경 후 저장소로 복사·커밋해 백업을 갱신한다.
 
 ```
-C:\Users\carpia b\Desktop\마케팅\온사이트\서비스소개서\
+원본(작업) C:\Users\carpia b\Desktop\마케팅\온사이트\서비스소개서\
+백업(git)  C:\Users\carpia b\Desktop\개인\carfia-backup\carfia-intro\
 ├─ 서비스소개_기획안.md        ← 기획 원본(섹션 구조·AI인식 체크리스트·결정현황)
 └─ carfia-intro\               ← 실행 가능한 Next.js 15 앱
    ├─ app\page.tsx             ← S1~S9 전체 조립 (서버 컴포넌트)
