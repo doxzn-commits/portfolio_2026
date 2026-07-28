@@ -284,324 +284,485 @@ snapshot-board-views.py → hit 추출 → 대장 viewCount 반영
 
 ## E. 구현 함정
 
-> ⚠️ **이 절은 원본 전달 과정에서 일부 문장이 잘렸다.** 유실 지점은 `⟨유실⟩` 로 표시했다.
-> 추측으로 메우지 않았으니, 표시된 항목은 실행 전에 원본을 다시 확인할 것. 목록은 [E-6](#e-6-복원-필요-항목) 참조.
+> 2026-07-28 원본 재수신으로 **E-1 ~ E-3은 전량 복원**됐다.
+> E-4 ~ E-6에 아직 잘린 문장이 남아 있고 `⟨유실⟩` 로 표시했다. 목록은 [E-7](#e-7-아직-복원-안-된-항목) 참조.
 
 ### E-1. 파이프라인 · 수집
 
 #### 뉴스 자동발행 파이프라인 v6 — 핵심 워크플로우
-`project_capia_pipeline`
+`capia_pipeline`
 
-**사용자 개입은 딱 2곳.** 그 외 전체 자동발행은 금지다.
+**사용자 개입은 딱 2곳.** 그 외 전체 자동발행은 **절대 금지**다.
 1. CLI에서 기사 번호 선택
 2. 대시보드에서 이미지 검수 + 발행 승인
 
-- 원문 파싱 실패 시 폴백: **다음 기사 → 같은 카테고리 → RSS 요약**. 에러가 나도 사용자에게 묻지 않는다
-- **H2는 키워드 리스트형 3줄 필수** (문장형 금지)
-- `articles_db.json`은 배열이 최상위
+- 원문 파싱 실패 시 **자동 폴백**: 다음 기사 → 같은 카테고리 → RSS 요약
+- **에러가 나도 사용자에게 절대 묻지 않는다**
+- **H2는 키워드 리스트형 3줄 필수** — 문장형 금지
+- `articles_db.json`은 **배열이 최상위**. 래핑 금지
 - ⚠️ 이 메모리에 적힌 포트 3000은 **구값**이다 — 실제 4517 ([A-1](#a-1-포트))
 
 #### 번호 재부여 함정 ★
-`project_collect_renumber_pitfall`
+`collect_renumber_pitfall`
 
-`collect-and-publish.ts`가 **매 실행마다 재수집**해서, 1차(목록)와 2차(선택)의 스냅샷이 달라진다.
-→ **같은 N이 다른 기사를 가리킨다.** 실증: "2"를 골랐는데 엉뚱한 기사가 발행됨.
+`scripts/collect-and-publish.ts`가 **매 실행마다 목록을 새로 만든다.**
+1차(목록 보기)와 2차(선택)가 서로 다른 스냅샷이 되어 **같은 N이 다른 기사를 가리킨다.**
 
-**해결**
-- 목록은 1회만 실행 → `.cache/collect-list.json` 에 TTL 1시간 스냅샷 저장
-- 선택은 `--select N` (캐시에서 읽으므로 번호가 안 흔들림)
-- ❌ `echo "N" | ...` 방식 금지 (불안정)
+> 실증 (2026-06-24): `"2"` 입력이 부산 모빌리티쇼가 아니라 **보험료 기사**로 들어감.
 
-#### 뉴스 발행 기본 프로세스
-`feedback_pipeline_flow`
-
-```
-① RSS 수집 → 브랜드 필터 → 중복 제거 → 최대 20건
-② CLI 번호 선택          ← 전체 자동발행 금지
-③ 원문 WebSearch/WebFetch 크롤링
-④ 템플릿 재작성 (구조 · NewsArticle+FAQPage 스키마 · H2 키워드 리스트형)
-⑤ PATCH /articles/:id
-⑥ 대시보드 확인
-```
-
-⚠️ **RSS 폴백으로 넣으면 링크 텍스트만 들어가 못 쓴다. 반드시 원문 크롤링 후 재작성.**
-
-#### 쓸 기사가 없을 때
-`feedback_no_recommended_article`
-
-기본 "자동차" 피드를 재실행하지 말고 **다른 키워드로 재수집**한다.
+**해결** — 목록 빌드 시 `.cache/collect-list.json` 스냅샷 저장 (TTL 1h)
 
 ```bash
-FEED_QUERY="검색어" npx tsx scripts/collect-and-publish.ts
+npx tsx scripts/collect-and-publish.ts              # 목록 표시 + 캐시 저장
+npx tsx scripts/collect-and-publish.ts --select 3   # 캐시 스냅샷의 N번 ingest
+#                                      --select 1,3,5 | all
 ```
 
-상위 20건(`MAX_DISPLAY`)만 표시되므로, 원하는 기사가 그 밖이면 **검색어를 더 좁혀** 상위로 올린다.
+❌ `echo "N" | ...` 방식 금지 (불안정)
+
+#### 뉴스 발행 기본 프로세스
+`pipeline_flow`
+
+```
+① RSS 수집 → 브랜드 필터 → 중복 제거 → 최대 20건 목록 표시
+② 사용자가 CLI에서 번호로 선택        ← 전체 자동발행 절대 금지
+③ 선택 기사 원문을 WebSearch/WebFetch로 크롤링
+④ 원문 기반으로 템플릿 구조에 맞춰 신규 HTML 재생성
+⑤ PATCH /articles/:id  (articleHtml · title · summary)
+⑥ 대시보드에서 미리보기 확인
+```
+
+**④의 구조**
+```
+H1 → 3줄 요약 deck → 메타 → 히어로 → 본문 H2들
+   → 표 → 핵심요약 박스 → FAQ → 태그 → CTA
+```
+SEO 스키마: **NewsArticle + FAQPage**
+
+⚠️ **RSS 폴백으로 넣으면 링크 텍스트만 들어가 미리보기·수정이 불가능하다. 반드시 원문 크롤링 후 재작성.**
+
+#### 쓸 기사가 없을 때
+`no_recommended_article`
+
+"추천 기사 중 쓸 게 없다 / 새 리스트 달라"면 **기본 "자동차" 피드를 다시 돌리지 말고 다른 검색 키워드로 재수집**한다.
+
+1. 사용자에게 수집 주제를 물어본다 — 수입차 신차 / 리스·렌트 / 전기차 보조금 / 프로모션 등
+2. 재수집 (env 오버라이드는 커밋돼 있음)
+   ```bash
+   FEED_QUERY="검색어" npx tsx scripts/collect-and-publish.ts
+   ```
+3. 상위 20건(`MAX_DISPLAY`)만 표시 → 원하는 기사가 밖이면 **더 구체적인 검색어로 좁힌다**
+4. 이후 `echo "번호" | FEED_QUERY=... npx tsx ...` 로 ingest
 
 ---
 
 ### E-2. 자동초안 · 기획 콘텐츠
 
-#### autodraft 창 누락
-`project_autodraft_window_gap`
+#### autodraft 창 누락 ★
+`autodraft_window_gap`
 
-autodraft는 ⟨유실: 실행 시각/조건⟩ **내일(오늘+1)** 의 `cartip` · `contentId` 없는 슬롯만 초안 생성한다.
+`scripts/autodraft-tomorrow.py`는 **매일 08:00에 오늘+1(내일) 발행예정 `cartip` · `contentId` 없음 슬롯만** 초안 생성한다.
 
-| 함정 | 내용 | 대응 |
-|---|---|---|
-| **창 누락** | 당일 08:00 cron 이후에 시드하면 그날 cron은 이미 지났고, 다음날 cron은 오늘+1만 보므로 **아무도 초안을 안 만든다** | `python3 scripts/autodraft-tomorrow.py <날짜>` 수동 실행 |
-| **CLI 타임아웃** | 서버 writer(claude CLI 헤드리스)가 **10분 초과 시 실패** → DRAFT로 복귀 | 긴 글은 Claude가 직접 작성해 PATCH ⟨유실⟩ |
+**함정 1 — 창(window) 누락**
+클러스터 슬롯을 **당일 08:00 cron 실행 이후에 시드**하면, 그날 cron은 이미 지났고 다음날 cron은 오늘+1만 본다. → **그 슬롯은 아무도 초안을 안 만든다.**
 
-⚠️ **목록 API ⟨유실: `?page=N` 추정⟩ 는 `bodyHtml`을 포함하지 않는다** (len=0으로 보임).
-→ 본문 유무는 반드시 **상세 `GET /planned-content/:id`** 로 확인할 것.
+> 실증: 2026-07-22에 시드한 7/23 판매순위 4건이 통째로 비어 수동 작성함.
 
-#### 기획 콘텐츠 (PlannedContent)
-`project_planned_content`
+→ 시드는 **cron(08:00) 이전**에 하거나, 시드 당일 `python3 scripts/autodraft-tomorrow.py <해당날짜>` 수동 실행.
 
-뉴스·프로모션과 나란한 **3번째 타입**. 3단계(수집 / 생성 / 발행).
+**함정 2 — CLI 타임아웃**
+서버 writer(claude CLI 헤드리스)는 `TIMEOUT_MS`(10분) 초과 시 실패 → 상태 `DRAFT` 복귀 + `generateError`.
 
-```
-주제 받음 → Claude가 완결 HTML 원고 작성
-         → POST /planned-content/collect {keyword}   레코드 생성
-         → PATCH /planned-content/:id {title, bodyHtml, ⟨유실⟩}
-```
-⟨유실: Claude 직접 생성이 폴백인지 기본인지 문장 손상⟩
+> 실증: 7/22 운용리스 등 긴 비교/리스 글에서 발생.
 
-- **미리보기는 iframe `srcDoc`** — `div` + `dangerouslySetInnerHTML`은 head/style이 깨진다
-- 주제 방향: **구매 꿀팁 · 구매 시 알아야 할 점 · 관리 꿀팁 · 리스/렌트**
-- **시각 요소 필수**, CTA ⟨유실⟩
-- 이미지는 본문 인라인 (운영 절대 URL)
+→ 타임아웃 건은 재시도해도 또 걸릴 수 있다. **Claude(대화)가 직접 작성해 PATCH가 빠르다.**
+→ 레코드가 이미 대장에 링크돼 있으면 collect 없이 `PATCH /planned-content/:id` 만 하면 된다.
+
+**검증 함정**
+`GET /planned-content?take=N` (목록)은 **`bodyHtml`을 싣지 않는다** (len=0으로 보임).
+→ 본문 유무는 반드시 **`GET /planned-content/:id` (상세)** 로 확인.
 
 #### 대장 초안 자동 생성
-`project_ledger_auto_draft`
+`ledger_auto_draft`
 
-대장의 **"초안 생성" 버튼**(꿀팁·뉴스)과 상세의 **"🤖 본문 생성"** 은 본문까지 자동 작성한다.
+대장의 **"초안 생성" 버튼**(꿀팁·뉴스)과 기획 상세의 **"🤖 본문 생성"** 은 본문까지 자동 작성한다.
 
-- 서버 키가 없어도 된다 — NestJS가 ⟨유실: claude CLI spawn 추정⟩ (cwd=리포 루트라 `CLAUDE.md` 자동 로드)
-- 상태: `DRAFT → GENERATING → READY` / 실패 시 `generateError`
-- `DraftWriterService`: **동시 1개 직렬 큐, 10분 타임아웃**, 재시작 시 `GENERATING → DRAFT` 복귀
-- 대화에서 직접 작성 → PATCH 하는 방식도 유효
+**서버에 `ANTHROPIC_API_KEY`가 없어도 된다** — NestJS가 로컬 claude CLI를 헤드리스로 spawn한다:
+
+```bash
+claude -p … --output-format json --allowedTools WebSearch WebFetch Read
+```
+(cwd = 리포 루트라 `CLAUDE.md` 지침 자동 로드, 구독 인증)
+
+- `DraftWriterService`: **동시 1개 직렬 큐, 10분 타임아웃**. 서버 기동 시 `GENERATING` 잔존 → `DRAFT` 리셋 (재시작 복구)
+- 상태: `DRAFT → GENERATING → READY`(성공) / `DRAFT + generateError`(실패, 재시도)
+- `POST /planned-content/:id/write-body` — **빈 DRAFT만 허용** (소급 생성)
+- 뉴스 kind: Article 셸(`news-YYYYMMDD-NNN`, `GENERATING`) 생성. 완료 시 h1→title, meta description→summary, **`status=DRAFT`** (뉴스엔 READY 없음 — 검수 후 발행)
+
+#### 기획 콘텐츠 (PlannedContent)
+`planned_content`
+
+뉴스·프로모션과 나란한 **3번째 타입**. 3단계: 수집 / 생성 / 발행.
+
+**Claude 직접 작성 방식 (API 키 불필요)**
+서버 `generate()`의 자동생성은 키가 없어 **항상 폴백(placeholder)** 이다. 실제 워크플로우는:
+
+```
+① Claude가 완결 HTML 원고 작성
+② POST /planned-content/collect {keyword}                    레코드 생성
+③ PATCH /planned-content/:id {title, bodyHtml, status:READY} 덮어쓰기
+```
+
+- 원고는 자체 `<style>`을 가진 **완결 HTML 문서** (`<!DOCTYPE…`)
+- **렌더링**: 상세/생성 미리보기는 `<iframe srcDoc={bodyHtml} sandbox="allow-same-origin">`
+  → `div` + `dangerouslySetInnerHTML`은 head/style이 깨지고 스타일이 누수된다
+- 주제 방향: **차량 구매 꿀팁 · 구매 시 꼭 알 점 · 차량 관리 꿀팁 · 리스/렌트**
+- **시각 요소 필수** (표 · 콜아웃 · 번호카드 · 요약칩)
+- CTA는 주제별 on/off. **보험 상담 CTA 금지** ([C-4](#c-4-사업-범위--cta))
+- 이미지는 본문 `<img>` 인라인. 발행 시 **운영 절대 URL 필수** (localhost 금지)
 
 ---
 
 ### E-3. 프로모션 (단일 · 엑셀)
 
-#### 단일 차종 프로모션
-`project_single_promotion`
+#### 단일 차종 1건 프로모션
+`single_promotion`
 
-⟨유실: 생성 경로 앞부분⟩ → `scripts/seed-single-promotion.ts <html>` 로 주입 (`kind='single'`)
-대시보드 **뉴스 ▸ 모델정보 탭**에 노출 (프로모션 탭 제외, `kind` 컬럼 ⟨유실⟩)
+**작성 · 등록**
+- 사장님이 모델명 제시 → Claude가 저장된 엑셀 데이터(`GET /promotions/:id`의 `rawData.sections`) 기반으로 완결 HTML 문서(자체 `<style>`) 작성 → `content-output/`에 저장
+- 주입:
+  ```bash
+  npx tsx scripts/seed-single-promotion.ts <html파일> \
+    [--brand= --yearMonth= --title= --model=]
+  ```
+- 레코드: 컬럼 `kind='single'` + `rawData.kind='single'`
+- 대시보드 **"뉴스 ▸ 모델 정보" 탭**에 노출 (프로모션 탭 제외)
 
-**HTML 제약**
-- CSS 변수 금지 → **리터럴 hex**
-- `<style>` 내 **주석 금지**
-- `@media`는 **통째로 제거됨**
-- 갤러리/카드는 `grid`/`flex` 대신 **`<table table-layout:fixed>`**
-- 표는 `table-layout:fixed` + `word-break:` ⟨유실⟩
-- **그림자 · 의사요소 금지**
-- FAQ는 `<details class="faq-item">`
+**발행 인라이너 안전 규약** — *미리보기는 멀쩡한데 발행본이 깨질 때 1순위*
 
-**CTA 표준 문구**: `같은 [모델명]라도, 카피아의 가격은 다릅니다` (모델명만 가변)
+| 규칙 | 이유 |
+|---|---|
+| CSS 변수 금지 → **리터럴 hex만** | 인라이너는 `:root`에서만 변수를 읽음 |
+| `<style>` 안 CSS 주석(`/* */`) 금지 | 뒤 셀렉터를 깨뜨림 |
+| `@media` 통째 제거됨 | 기본 스타일이 모바일에서도 깔끔해야 함 |
+| 3단 갤러리·가로 N등분 카드는 grid/flex 금지 | `<table table-layout:fixed>` + `<td width:33.33%>` |
+| 이미지 비율에 고정 px height 금지 | `aspect-ratio:3/2`. 라운드는 `<img>`에 직접 `border-radius` 인라인 |
+| 표는 모바일 폭 초과 금지 | `table-layout:fixed` + `width:100%`, 셀은 `white-space:normal` + `word-break:keep-all` + `overflow-wrap:anywhere`. 트림표는 폰트 12px · 패딩 8px 5px면 **5열도 375px 안착** |
+| 글래스 / 그림자 / `backdrop-filter` / 의사요소(`::before`·`::after`) 금지 | strip됨 → 솔리드 배경으로 |
+| FAQ는 `<details class="faq-item">` | 인라이너가 화살표 스타일 주입 |
 
-> 🚨 **`bodyHtml` 통째 덮어쓰기 금지.**
-> 재시 ⟨유실⟩ 슬롯 이미지(`hero`/`front`/`side`/`interior`의 실제 URL)가 **전부 날아간다** — 본문 HTML에만 저장되기 때문.
-> **재작성 전에 라이브 `bodyHtml`을 GET해서 각 `data-slot`의 `src`를 보존할 것.**
+**CTA 표준 문구 · 정렬** (2026-06-12 확정)
+```html
+같은 <span>[모델명]</span>라도,<br> <span>카피아</span>의 가격은 다릅니다.
+```
+- **모델명만 가변.** "카피아의 가격은 다릅니다"는 고정 문구
+- 정렬: **flex 금지** → `.cta-block{text-align:center}` + 버튼 `display:inline-block`
+- 버튼 문구: **"최저가 견적 보기 →"**
+
+> 🚨 **`bodyHtml` 통째 덮어쓰기 금지** (2026-06-12 교훈)
+>
+> 단일 프로모션 원고를 새 HTML 파일로 통째 PATCH/재시드하면, 사장님이 드롭존으로 올린 **슬롯 이미지(`hero`/`front`/`side`/`interior`의 실제 URL)가 전부 날아간다.**
+> 슬롯 이미지는 **본문 HTML 안에만** 저장된다 (Image 테이블 미등록).
+>
+> → 재작성 전 반드시 라이브 레코드의 `bodyHtml`을 GET해 각 `data-slot`의 현재 `src`를 추출 → 새 본문에 **보존(merge)**.
+> → 복구 경로: hero는 S3/cloudfront, inline 슬롯은 서버 로컬 `uploads/{promotionId}_inline_{ts}.{ext}`
+
+**운영 주의**: API는 빌드본(`node dist/main`) → service 수정 시 `npx nest build` 후 재기동 필요 ([A-3](#a-3-재기동-표준-절차))
 
 #### 단일 프로모션 히어로 = 전체 이미지
-`project_single_promo_hero_fullimage`
+`single_promo_hero_fullimage`
 
-비율 그대로 **잘림 없이** 노출한다. 뉴스/기획의 4:3 `cover`와 다르므로 그쪽 스타일을 적용하면 안 된다.
+`kind='single'` 대표(히어로) 이미지는 **원본 비율 그대로 전체가 잘림 없이** 노출한다 (사장님 확정).
+뉴스/기획 히어로의 **4:3 cover 정책과 다르다** — 단일 프로모션엔 적용 금지.
 
 ```css
-.m-image      { width: 100%; }              /* aspect-ratio 없음 */
-.m-image img  { width: 100%; height: auto; } /* object-⟨유실⟩ */
+/* ✅ 올바름 */
+.m-image     { width:100%; /* aspect-ratio 없음 */ }
+.m-image img { width:100%; height:auto; display:block; /* object-fit 없음 */ }
+
+/* ❌ 잘못됨 — 원본이 16:9가 아니면 잘림 */
+.m-image     { aspect-ratio:16/9; overflow:hidden; }
+.m-image img { height:100%; object-fit:cover; }
 ```
 
-- 스크립트: `scripts/fix-si⟨유실⟩ngle-promo-hero-fullimage.ts` (**재 seed 금지**)
-- 버그 이력: 제목 저장 시 완결 문서가 박살나는 문제(update가 조각 생성기로 재생성) → **`isFullDoc` 가드로 수정됨**
+- 소스: `scripts/templates/model-info-glass.template.html`
+- 복구: `scripts/backfill-single-promo-hero-fullimage.ts` — `bodyHtml`의 `.m-image` CSS **두 줄만 교체**, 이미지 src 보존. **재 seed 금지**
+- 버그 이력: **제목 저장 시 완결문서 박살** — `update()`가 (섹션순서·제목 변경 시) 조각 생성기로 재생성 → 완결문서 소실. **수정: 재생성 조건에 `&& !isFullDoc(...)` 추가**
 
 #### 단일 모델 CTA — 앵커 2곳
-`project_single_model_cta_dual_anchor`
+`single_model_cta_dual_anchor`
 
-견적 앵커가 **2곳**이다: 카드의 `.cta-btn` + 하단 `.cta-block`. CTA 저장 시 둘 다 동기화 ⟨유실⟩
+단일 모델 글(`model-info-glass`, `kind=single`)에는 "최저가 견적 보기" 앵커가 **두 곳**이다:
+① 카드 상단 `<a class="cta-btn">` ② 하단 `<div class="cta-block"><a>` — 둘 다 `{{QUOTE_URL}}` 플레이스홀더.
 
-- `href = https://carfia.co.kr/mkt/<코드>` — **모델별 마케팅 단축코드**
-- 코드는 사장님/마케팅이 배정한다 → **Claude는 모른다**
-- 작성 시 임시값을 넣고, 사장님께 코드를 물어 **PATCH로 교체**
+**버그**: 대시보드 CTA 저장이 `cta-block` 앵커만 갱신해 카드 `.cta-btn`의 href가 placeholder로 남음 → 아우디 건을 수기 발행함.
+→ **수정**: `applyPromotionCtaToBody`가 `applyQuoteBtnLink()`로 `.cta-btn` href도 동기화 (2026-06-26)
+
+**작성 시 두 앵커 모두 실제 랜딩 URL로 채울 것. 플레이스홀더 금지.**
+
+⚠️ **실제 CTA URL 규칙** (2026-07-27 라이브 기준)
+```
+https://carfia.co.kr/mkt/<코드>
+```
+모델별 마케팅 트래킹 단축코드다.
+
+| 모델 | 코드 |
+|---|---|
+| BMW 320i | `d4` |
+| 아우디 A3 | `c9` |
+| 벤츠 E200 | `cb` |
+| BMW X4 | `ca` |
+
+**위 4개 외의 코드는 사장님/마케팅이 배정하므로 Claude가 알 수 없다.**
+→ 작성 시 임시값을 넣고 사장님께 물어 두 앵커를 PATCH하거나, 대시보드 CTA 편집기로 교체.
+→ 옛 `/quote?model=<slug>` 패턴은 **폐기**.
 
 #### 프로모션 엑셀 단위
-`project_promotion_excel_unit`
+`promotion_excel_unit`
 
-`rawData` ⟨유실: 단위 기준 문장⟩ (`html-generator`가 "만원" 라벨을 붙임)
+`rawData.sections[].models[]`의 `price` · `ownDiscount` · `partnerDiscount`는 **만원 단위 저장이 표준**이다.
+`html-generator.service.ts`가 `formatNumber(value)` + **"만원" 라벨**로 출력하므로 값이 만원 단위라고 가정한다.
 
-**함정**: 폭스바겐 6월만 '원' 단위로 업로드 → **"69,040,000만원"** 증상.
-→ **코드 버그가 아니라 엑셀 입력 단위 문제다.** 신규 업로드 시 단위부터 확인할 것.
-`rawData`는 ⟨유실⟩ 저장하면 재발한다.
+**함정** (2026-06-17)
+- BMW · 아우디 · 벤츠 · 볼보: `price ≈ 4,000~4,800` → 만원 단위 (정상)
+- **폭스바겐 6월만** `price=69,040,000` 등 '원' 단위로 업로드 → **"69,040,000만원"** 표기
+- **코드 버그가 아니다. 엑셀 입력 단위 문제.**
+
+**조치**
+- 폭스바겐만 세부 원 금액 그대로 노출하고 단위를 '원'으로 (예: `108,353,000원`)
+- ⚠️ `rawData`는 여전히 원 단위 → **제목/섹션순서만 바꿔 저장해도 템플릿이 재생성해 증상 재발.** `UpdatePromotionDto`엔 `rawData`가 없어 PATCH로 못 고침
+- 근본 해결: ① 폭스바겐 엑셀을 **만원 단위로 재업로드**, 또는 ② prisma 스크립트로 `rawData ÷ 10,000` 정규화
+- **신규 프로모션 업로드 시 엑셀 가격 단위(만원)인지 먼저 확인**
 
 ---
 
-### E-4. 발행 CSS · 인라이너 함정
+### E-4. 발행 CSS — 미리보기 ≠ 발행본
 
-#### 미리보기 ≠ 발행본을 만드는 6종 ★
-`project_publish_inline_css_pitfalls`
+#### 6대 원인 ★
+`publish_inline_css_pitfalls`
 
-인라이너(`inlineCssStyles` ⟨명칭 일부 유실⟩)가 원인이다.
+발행 `preprocessContent(inlineCssStyles)`가 `<style>` 규칙을 각 요소 `style=""`에 인라인한 뒤 head·body 래퍼를 제거한다. 완결 HTML 문서(단일모델·글래스 기사)가 미리보기와 달라지는 원인 6가지:
 
-| # | 함정 | 대응 |
-|---|---|---|
-| ① | `/* */` **주석이 뒤 규칙을 깨서 통째로 사라짐** | `<style>` 내 주석 금지 |
-| ② | `body::before` · `body{}` 는 인라인 불가 | ⟨유실⟩ 요소에 |
-| ③ | 박스 안 `disc <ul>` 불릿이 게시판 테두리에 달라붙음 | `injectBoxListBullets`로 해결 |
-| ④ | 자식 결합자(`>`) · `@media` 미지원 | 넓은 표는 **카드형**으로 |
-| ⑤ | 게시판 sanitizer가 `<ca⟨유실: caption 추정⟩` 제거 | 제목은 **표 앞 div**, 합계행은 평셀 |
-| ⑥ | **`display:grid` · `transform` · `position:absolute` 제거됨** | 카드/비교는 grid 금지 → **세로 스택 또는 table** |
+**1. `/* */` CSS 주석이 바로 뒤 규칙을 깨뜨린다**
+`parseCssRules`가 주석을 제거하지 않아, 주석 텍스트가 다음 셀렉터에 섞여 매칭 실패 → 그 규칙이 인라인도 안 되고 재주입 `<style>`에도 없어 **통째로 사라진다.**
+→ **`<style>` 안에 주석 절대 금지.**
 
-**생존하는 것**: `block` / `flex` / `inline-block` / `table`, line-⟨유실⟩, `rgba`, `border-left`
+**2. `body::before`(가상요소) · `body{}` 규칙은 인라인 불가 → 발행 시 사라진다**
+배경 앰비언트를 `body::before`로 만들면 미리보기엔 보여도 발행본엔 없다.
+→ 배경은 **실제 요소(`.wrap` 같은 컨테이너)의 `background`** 로 둘 것. 요소 background(솔리드/rgba)는 인라인되어 살아남는다.
 
-**검증**: `preprocessContent()` 를 직접 호출해 재현할 것.
+**3. 박스 안 기본 disc `<ul>` 불릿이 게시판 테두리에 달라붙는다**
+`.toc`/`.summary-box`의 disc ul을 게시판이 `ul,li{padding:0}`으로 리셋하면 마커가 테두리에 붙음.
+→ `inline-styles.ts`의 **`injectBoxListBullets`** 가 disc ul을 `list-style:none` + 선두 span 불릿으로 치환.
+
+**4. 인라이너는 자식 결합자(`>`) 미지원, `@media`는 통째 제거**
+`.table-wrap>table{min-width}` 같은 자식결합자 규칙은 인라인 안 됨.
+→ 넓은 표(4열↑)는 가로 스크롤 대신 **카드형**(행별 블록, 인라인 스타일만)으로 재구성. 게시판은 overflow 스크롤 컨테이너 자체를 지원 안 함.
+
+**5. 게시판 sanitizer가 `<caption>` · `colspan`/`rowspan`을 제거 → 표가 줄바꿈·정렬 붕괴**
+caption은 태그만 제거되고 텍스트가 표 밖으로 튕긴다. colspan 제거로 행마다 셀 수가 어긋난다.
+→ `content-preprocess.ts`의 `lif⟨유실⟩div)` + **`expandColspanCells`**(`colspan="N"` → 셀 + 빈셀 N-1개)
+→ 표엔 애초에 caption · colspan/rowspan ⟨유실⟩ (합계행은 평셀)
+
+**6. 게시판 sanitizer가 `display:grid` · `grid-template-*` · `gap`(grid) · `transform` · `position:absolute`를 인라인 style에서 제거**
+`display:grid` 카드 레이아웃이 발행본에서 속성 통째로 사라져 무너진다 (2026-07-02 개소세 비교 뉴스 실증).
+
+> **생존하는 것**: `display:block` / `flex` / `inline-block` / `table`·`table-cell`, `background:linear-gradient`, `border-radius`, `rgba` 배경, `border-left`
+
+→ 카드/비교 레이아웃은 **grid 금지**. ⟨유실⟩ `<table>`로.
+→ **`@media` 반응형에 의존하지 말 것**(제거됨) — 스택형은 미디어쿼리 없이도 모바일에서 세로로 쌓인다.
+
+**검증법**: `preprocessContent({content, title})`를 직접 호출해 발행본을 재현하고, 요소별 인라인 style 유지 여부 확인 (주석 0개, `.wrap` 배경, 카드 rgba 배경이 유지되는지).
 
 #### h1 제거 → 빈 히어로 밴드
-`project_publish_h1_strip_hero_band`
+`publish_h1_strip_hero_band`
 
-발행 시 `stripPublishingOverlap()` 이 **모든 `<h1>`을 제거**한다 (게시판이 title을 별도로 렌더하므로).
+발행 전처리 `stripPublishingOverlap()` (`content-preprocess.ts`)는 본문의 **모든 `<h1>`을 통째로 제거**한다 (게시판이 제목을 title 필드로 별도 렌더하므로 중복 방지).
 
-**함정**: 제목을 그라데이션 배너 안에 넣으면 h1만 지워지고 **빈 파란 밴드 + 날짜만 잔존**한다.
+**함정** (2026-07-21 실증, EV 여름충전 기획글)
+제목을 그라데이션 `.hero` 밴드 div 안에 함께 넣었더니, 발행 시 h1만 제거되고 **파란 그라데이션 밴드 + 날짜 텍스트만 잔존** → "제목 잘림 + 잘린 파란 네모에 날짜" 증상.
 
-→ 제목은 **배경 없는 평범한 h1**, 히어로는 **별도 `figure.hero`(이미지)**. 날짜·kicker를 넣지 말 것.
-→ `.hero` 클래스 = 이미지 figure
+**적용 방법**
+- 기획/뉴스 완결문서 제목은 **배경 없는 평범한 `<h1>`** 으로
+- 히어로는 **별도 `figure.hero`(이미지)** 로 두고, 발행일/날짜 라인·kicker는 넣지 ⟨유실⟩
+- `.hero` 클래스 = 파이프라인상 **이미지 figure 의미로 고정** (`normalizeHeroPlacement`가 `figure.hero`를 `.wrap` 안으로 이동). 그라데이션 배경 밴드 ⟨유실⟩
+- 검증법: 저장 전 `preprocessContent` ⟨유실⟩ linear-gradient · 날짜 잔존 없는지 확인
 
 ---
 
 ### E-5. 히어로 · 인라인 에디터
 
 #### 히어로 비율 = natural
-`project_hero_image_ratio`
+`hero_image_ratio`
 
-히어로는 `width:100%; height:auto` — **고정 박스 · 여백 · 크롭 없음.**
+대표(히어로) 이미지 = **원본 비율 그대로 `width:100%; height:auto`** — 고정 박스 · 여백 · 크롭 전부 없음.
 
-이력: 16:9 → 4:3 → … → **natural (2026-06-23 최종)**. `contain` 레터박스가 "깨진 것처럼" 보여 폐기.
+이력: 16:9 cover → 4:3 → 5:4 → contain+여백 → **natural(height:auto)** (2026-06-23 최종).
+contain의 회색 레터박스 바가 "깨진 것처럼" 보여 고정 박스를 폐기했다.
 
-⚠️ 뉴스/기획 히어로 스타일 주입 지점이 **4곳**이다 (DetailModal, collect-and-publish, ⟨2곳 유실⟩).
-**전부 같이 바꿔야** 재업로드 시 유지된다.
+⚠️ **뉴스 히어로 스타일 주입은 4곳** — 전부 같이 바꿔야 재업로드에도 유지된다:
+1. `article-html.service` (×2)
+2. `NewsDetailModal`(`patchBodyFigure`)
+3. `collect-and-publish.ts`
+
+> 과거 누락으로 cover로 되돌아간 사고가 있었다.
+
+- **기획은 `aspect-ratio:auto`** 로 글 CSS `figure img{aspect-ratio:16/9}`를 덮어써야 박스/크롭이 안 생긴다
 
 #### 히어로가 .wrap 바깥에 있을 때
-`project_hero_outside_wrap_pitfall`
+`hero_outside_wrap_pitfall`
 
-기획 히어로가 `.wrap`(max-width:680px) **바깥(body 직속)** 이면 `width:100%`가 전체폭으로 풀려 본문 ⟨유실⟩ (885px).
+기획 히어로와 본문 이미지의 **가로폭이 달라 깨지는 버그**의 근본 원인.
 
-**해결**: `insertOrReplaceHero`가 컨테이너 **안쪽 최상단**에 재삽입 + 발행 시 `normalizeHeroPlacement` + 백필
+**원인**: `insertOrReplaceHero`가 히어로 figure를 `<body>` 직후(= `.wrap` 컨테이너 **바깥**)에 삽입.
+구조가 `<body><div class="wrap">(max-width:680px)…</div></body>`라, 바깥 히어로는 `width:100%`가 `.wrap`이 아닌 **body 전체 폭**으로 풀린다.
+
+> 측정(900px 창): 히어로 **885px** vs 본문 이미지 **644px** → 히어로를 `.wrap` 안쪽으로 옮기니 둘 다 644px로 일치.
+
+**해결 (3중)**
+1. `insertOrReplaceHero` — 기존 히어로 제거 후 **항상 컨테이너 안쪽 최상단**에 재삽입 (`.wrap` → `.article-wrap` → `article` → `body` 순)
+2. 발행 정규화 — `content-preprocess.ts`의 `normalizeHeroPlacement` (바깥 히어로를 안쪽으로 이동, idempotent)
+3. 백필 — 기존 기획기사 PATCH
 
 #### 앵커 없으면 조용히 실패 ★
-`project_hero_no_anchor_pitfall`
+`hero_no_anchor_pitfall`
 
-히어로 주입은 **고정 앵커 문자열 치환**이다 (`article-figure` / `placeholder` / `her⟨유실⟩`).
+**증상**: 대표 이미지를 추가해도 본문에 안 ⟨유실: "나온다" 추정⟩
 
-**자유 HTML은 replace가 no-op** → 업로드해도 본문에 안 박힌다.
-파일·DB는 정상 생성되므로 겉보기엔 **"추가가 안 됨"** 으로만 보인다. 조용한 실패.
+히어로 주입(`ArticleHtmlService.regenerate` 서버 + `patchBodyFigure` 클라)은 **고정 앵커 문자열 치환으로만** 넣는다:
+- `<figure class="article-figu⟨유실⟩">`
+- `hero-img-placeholder`
+- `class="hero-img"`
 
-**해결**: 앵커가 전부 실패하면 `</h1>` 뒤(없으면 `<body>` 직후)에 figure 삽입.
-⟨유실⟩-HTML 분기는 **500자 이상**에서만 탐색.
+차트형 판매량 기사처럼 자유 작성된 ⟨유실⟩ 없어 **모든 replace가 no-op** → 이미지 DB row·파일은 정상 생성(업로드 200)인데 `articleHtml`엔 안 박힘 → 사용자에겐 **"추가 안 됨/에러"** 로 보인다. 조용한 실패다.
+
+**해결** (2026-06-30): 세 앵커 모두 매칭 실패하면 `</h1>` 바로 뒤(없으면 `<body>` 직후)에 figure 삽입 — 서버 `regenerate` + 클라 `patchBodyFigure` 양쪽 폴백.
+
+**주의**: custom-HTML 분기는 `articleHtm⟨유실⟩`. 깨진 기사는 **재빌드 + 재기동 후 대표 이미지 1회 재업로드**하면 복구된다.
 
 #### 인라인 에디터 손상 — 증상 3종의 공통 뿌리 ★
-`project_inline_editor_corruption`
+`inline_editor_corruption`
 
+기획 인라인 에디터(`InlineArticleEdi⟨유실⟩`)
+
+**Root cause**
 ```
-insertOrReplaceHero 폴백이 히어로를 <!DOCTYPE> 앞에 prepend
-  → malformed 파싱
-  → head의 meta/title/style이 contenteditable body로 relocate
-  → syncOut이 그대로 저장
-  → 매 편집마다 ⟨유실: 악화 추정⟩
+insertOrReplaceHero 폴백의 return fig + html
+  → 히어로 figure를 <!DOCTYPE html> 앞에 prepend
+  → 문서가 malformed 파싱
+  → head의 meta/title/script/style이 contenteditable body로 relocate
+  → syncOut이 bodyEl.innerHTML을 그대로 저장
+  → 매 편집마다 head가 body로 복제·누적
 ```
 
-**증상 3종이 전부 같은 뿌리다**: 모바일 깨짐 / 이미지 좌측 정렬 / CTA 안 보임
+**증상 3종 — 전부 같은 뿌리**
+1. **모바일 깨짐** = 히어로 중복 + `<tit⟨유실⟩`
+2. **이미지 좌측정렬** = `setImgWidth`가 ⟨유실⟩ 사용. 중앙정렬은 `display:block; margin:0 auto`
+3. **편집기 CTA 안 보임** = CTA OFF로 저장 시 `.cta-inline{display:none}`가 body로 baked → **CTA ON이어도 영구 숨김**
 
-**수정**: `setImgWidth` 중앙정렬, `syncOut` strip, 히어로를 **body 안쪽**에 삽입, 백필
+**수정**
+- (a) `setImgWidth` 중앙정렬
+- (b) `syncOut` 저장 전 에디터 마커 / head-only 노드 strip
+- (c) 히어로를 **body 안쪽**에 삽입
+- (d) 기존 글 backfill
 
 #### 대표 이미지 교체 안 됨
-`project_inline_editor_hero_replace`
+`inline_editor_hero_replace`
 
-⟨유실⟩(`article-figure`)가 **편집 루트(`article-body`) 바깥**이라, 클릭 교체가 `syncOut`/`reconstruct` 과정에서 버려진다.
+`InlineArticleEditor`의 `detectMode`는 뉴스(`class="article-body"` 보유)에서 편집 루트를 `<div class="article-body">`에만 건다. 히⟨유실⟩ `article-body` **바깥(앞 형제)** 이라, 인라인 에디터에서 히어로를 클릭 → 교체하면 iframe DOM의 src는 바뀌지만 `syncOut`·`reconstruct`에서 교체분이 버려진다 → **"대표 이미지 교체 안 됨"**
 
-**해결**: 선택 이미지가 편집 루트 밖이면 `syncOut` 대신 전체 ⟨유실⟩`(url)` 치환
-**부수 팁**: 2단 나란히 이미지의 세로 차이 = `table table-layout:fixed` 누락
+**해결** (2026-06-29): `handleFile` 교체 ⟨유실⟩ 루트 밖이면(`!root.contains(selected)`) `syncOut` 대신 전체 문서 문자열에서 `workingRef.current.split(prevSrc).join(url)`로 직접 치환 후 `onChange`.
+(src는 타임스탬프 파일명이라 유일 → 안전)
+
+**잔존 이슈**: 히어로 폭조정·삭제도 `syncOut` 의존이라 편집 루트 밖이면 동일하게 누락된다.
+**부수 팁**: 2단 나란히 이미지의 세로 차이 = 표에 `table-layout:fixed` 누락이 원인.
 
 #### 뉴스 미리보기는 iframe
-`project_news_preview_iframe`
+`news_preview_iframe`
 
-뉴스 상세 view 미리보기가 완결 HTML을 `<div dangerouslySetInnerHTML>`로 넣어 **head의 `<style>`이 미적용** → "CTA 버튼 안 보임".
+뉴스 상세(`NewsDetailModal`) **view 모드** 미리보기가 완결 HTML 문서를 `<div dangerouslySetInnerHTML>`로 직접 주입했다.
 
-**해결**: `iframe srcDoc` (`sandbox="allow-same-origin"`) 으로 교체.
-→ **완결 HTML은 반드시 iframe srcDoc. div 금지.**
+전체 문서를 div innerHTML에 넣으면 `<head>`의 `<style>`이 적용 안 돼 **무스타일 렌더** → CTA가 스타일 잃은 맨 링크가 됨("견적 버튼 안 보임"). **편집 모드(iframe)는 정상이었다.**
+
+**해결** (2026-06-24): view 미리보기를 `ifr⟨유실⟩ame-origin")` 으로 교체. 격리 문서라 자체 head/style이 적용 → CTA 버튼 정⟨유실⟩
+
+> **규칙: 완결 HTML 문서(자체 style 보유)는 반드시 `iframe srcDoc`으로 렌더. `div` + `dangerouslySetInnerHTML` 금지.**
 
 ---
 
 ### E-6. 이식 · 도구 · 콘텐츠 앵글
 
 #### Figma → HTML 랜딩 이식
-`project_figma_landing_import`
+`figma_landing_import`
 
-**변환 3단계**
-1. **JS 제거** — 스크롤 리빌은 항상 표시, 폼/모달 → `<a class="cta">` 실 URL
-2. 800px 고정 캔 ⟨유실⟩ 폴백 + `zoom: calc(100vw/800px)`
-3. 주석 제거 · body 배경 → 래퍼 클래스
+**표준 변환 3단계**
+1. **JS 전제 제거** — 게시판은 `<script>` ⟨유실⟩ `city:0}`)은 항상 표시로, 폼/모달은 삭제하고 `<a class="cta">` 실 랜딩 URL로 교체
+2. **고정 캔버스 모바일 대응** — 800px ⟨유실⟩ + `zoom: calc(100vw / 800px)`, `.page-shell{overflow-x:hidden}` 래퍼
+3. `<style>` 내 **주석 전부 제거**, body 배경 → 래퍼 클래스로 복제
 
-**⚠️ 실발행 제약**
-- CSS 변수 · `@media` · pseudo-element **폐기**
-- `data:` URI **제거됨** (이미지 깨짐) → 사진은 `<img src=…>` (background는 미러링 안 됨)
-- 반응형은 `clamp`/`vw`
-- **h1 전부 제거** → 시각 타이틀은 `p`
-- **이미지 위 텍스트 오버레이 불가** → 필요하면 PIL로 이미지에 합성
+**실발행 추가 제약 (dev 실증)**
+- **CSS 변수 금지**(리터럴로), **`@media` 금지**(반응형은 `clamp()`/`vw`/`%`로)
+- 사진은 전부 `<img src="http://loca⟨유실⟩` (cloudfront 미러링). **CSS background 이미지는 미러링 안 됨**
+- **단순 클래스 셀렉터만.** 배경은 실요소의 `linear-gradient`
+- **모든 `<h1>` 제거됨** → 본문 시각 타이틀은 `<p>`로
+- 게시판이 `grid-area` 등 오버레이 계열 제거 → **이미지 위 텍스트 오버레이 CSS 불가.** 필요하면 **PIL로 타이틀을 이미지에 합성**
+
+**검증**: `javaScriptEnabled:false` 헤드리스로 375 / 414 / 800 문서폭 ≤ 뷰포트 확인
 
 #### Playwright 재현 환경
-`project_playwright_repro_chromium`
+`playwright_repro_chromium`
 
-기본 초기화 실패 (`/opt/google/chrome/chrome` 없음).
+이 머신에서 MCP playwright는 초기화 실패한다 (`Chromium 'chrome' is not found at /opt/google/chrome/chrome`).
 
 **우회**: 스크래치패드에 `npm i playwright-core` 후
 ```js
 chromium.launch({
-  executablePath: '/home/user/.cache/⟨유실⟩/chrome-linux64/chrome',
+  executablePath: '/home/user/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome',
   headless: true
 })
 ```
-로 대시보드 UI를 재현한다. 파일 업로드는 `setInputFiles` (꿀팁 모달은 **file input이 2개**).
+로 대시보드(3001) UI를 재현한다.
+
+파일 업로드는 `locator('input[type=file]').setInputFiles(...)`.
+꿀팁 모달은 **file input이 2개** — 첫째 = 에디터 인라인, 마지막 = 우측 ⟨유실⟩
 
 #### 콘텐츠 앵글 실험 — 테슬라 트림별 배터리
-`project_tesla_battery_trim_angle`
+`tesla_battery_trim_angle`
 
-성과가 좋았던 "테슬라 BSM 배터리" 후속으로 **트림별 배터리(LFP vs NCM) 선택 가이드** 발행 (`news-20260701⟨유실⟩`).
+성과가 좋았던 "테슬라 BSM 배터리" 후속으로 새 앵글 = **트림별 배터리(LFP vs NCM) 선택 가이드**를 뉴스 탭에 발행 (2026-07-01, id `news-20260701-6⟨유실⟩`).
 
-| 트림 | 배터리 | 용량 · 주행 |
-|---|---|---|
-| ⟨트림명 유실⟩ | LFP | ⟨유실⟩2 kWh |
-| 롱레인지 AWD | NCM | 84.85 kWh · 523 km |
+**핵심 팩트 (공식 검증)**
 
-- 충전: **LFP는 100% 상시**, **NCM은 80~90%**
-- 보증: 8년 16만 km, 70%
+| 트림 | 배터리 | 용량 | 주행 |
+|---|---|---|---|
+| 모델Y RWD | LFP | ~62 kWh | — |
+| 모델Y 롱레인지 AWD | NCM (LG엔솔) | 84.85 kWh | 상온 523 km |
+| 모델Y L | — | 88.2 kWh | 상온 553 / 저온 454 km (기후에너지환경부) |
 
-> 목적은 성과 자체가 아니라 **학습**이다. 한 포맷에 고착하지 말고 다양한 앵글을 시도해 인용 여부를 관찰할 것 ([C-1](#c-1-1차-목표--ai-검색-인용)).
+- **충전**: LFP는 100% 상시 + 주 1회 완충 ⟨유실: 매뉴얼 추정⟩
+- **보증**: 모델3·Y **8년 또는 16만 km, 용량 70% 보장**
+- **출처**: tesla.com 보증·지원 + `ev.or⟨유실: ev.or.kr 추정⟩`
 
-⚠️ **위 표의 수치는 일부 유실됐다.** 이 프로젝트의 수치 검증 규칙상 **복원 전 인용 금지**.
+> 목적은 성과 자체가 아니라 **학습**이다. 한 포맷에 고착하지 말고 다양한 앵글을 시도해 인용되는지 관찰할 것 ([C-1](#c-1-1차-목표--ai-검색-인용)).
+
+⚠️ **이 수치들은 위 공식 출처로 재검증한 뒤에만 인용한다. 트림명 + 용량이 반드시 함께 있어야 한다.**
 
 ---
 
-## E-6. 복원 필요 항목
+## E-7. 아직 복원 안 된 항목
 
-전달 과정에서 문장이 잘린 항목이다. 실행 전에 원본을 다시 받아 채울 것.
+E-1 ~ E-3은 2026-07-28 재수신으로 전량 복원됐다. 아래는 **여전히 문장이 잘린 곳**이다.
 
-| 항목 | 유실 내용 |
+| 항목 | 유실 지점 |
 |---|---|
-| `project_autodraft_window_gap` | autodraft 실행 조건 앞부분, 목록 API 파라미터명, 긴 글 PATCH 문장 |
-| `project_planned_content` | Claude 직접 생성의 위상(기본/폴백), PATCH 페이로드 나머지 필드, CTA 규칙 |
-| `project_ledger_auto_draft` | NestJS가 무엇을 spawn하는지 |
-| `project_single_promotion` | 생성 경로 앞부분, `kind` 컬럼 설명, `word-break` 값, 덮어쓰기 재시도 문맥 |
-| `project_single_promo_hero_fullimage` | `object-fit` 값, 스크립트 파일명 일부 |
-| `project_single_model_cta_dual_anchor` | CTA 동기화 동작 설명 |
-| `project_promotion_excel_unit` | `rawData` 단위 기준 문장, 재발 조건 |
-| `project_publish_inline_css_pitfalls` | 인라이너 함수명, ②의 대응, ⑤ 태그명, 생존 속성 1개 |
-| `project_hero_image_ratio` | 주입 지점 4곳 중 2곳 |
-| `project_hero_outside_wrap_pitfall` | 증상 서술 |
-| `project_hero_no_anchor_pitfall` | 앵커 3번째 이름, 500자 분기 대상 |
-| `project_inline_editor_hero_replace` | 대상 요소명, 치환 함수명 |
-| `project_figma_landing_import` | 800px 캔버스 처리 |
-| `project_playwright_repro_chromium` | chromium 캐시 경로 |
-| `project_tesla_battery_trim_angle` | 기사 ID, RWD 트림명·용량·주행거리 |
+| `publish_inline_css_pitfalls` | ⑤ `content-preprocess.ts`의 `lif…div)` 함수명 · caption 관련 문장 끝 / ⑥ "카드·비교는 grid 금지, ⟨?⟩ `<table>`로" |
+| `publish_h1_strip_hero_band` | "kicker는 넣지 ⟨않는다⟩" · ".hero … 그라데이션 배경 밴드 ⟨?⟩" · 검증법 문장 |
+| `hero_no_anchor_pitfall` | 증상 문장 끝 · 앵커 1 클래스명 끝 · "자유 작성된 ⟨?⟩ 없어" · custom-HTML 분기 조건 |
+| `inline_editor_corruption` | 컴포넌트명 끝 · 증상1의 `<tit…` · 증상2 `setImgWidth`가 무엇을 사용하는지 |
+| `inline_editor_hero_replace` | "히⟨어로 figure가⟩" · `handleFile` 교체 문장 |
+| `news_preview_iframe` | 해결 문장의 `iframe srcDoc(sandbox="allow-same-origin")` 표기 · 끝 문장 |
+| `figma_landing_import` | ①의 script 조건(`…city:0}`) · ②의 800px 캔버스 처리 · 이미지 src 예시 |
+| `playwright_repro_chromium` | 꿀팁 모달 두 번째 file input의 위치 |
+| `tesla_battery_trim_angle` | 기사 id 끝자리 · 충전 매뉴얼 출처 · `ev.or.kr` 표기 |
+
+> 위 9건은 **앞뒤 몇 글자만 알려주면 원본에서 해당 문장을 찾을 수 있다**고 전달자가 안내했다. 필요할 때 그 방식으로 채운다.
