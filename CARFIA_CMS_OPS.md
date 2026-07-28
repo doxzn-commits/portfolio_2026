@@ -172,6 +172,10 @@ prisma 스키마 수정 → generate 누락 → API 빌드 실패 → 4517 다�
 ### C-1. 1차 목표 = AI 검색 인용
 `project_ai_citation_goal`
 
+> 📎 **상세 인사이트는 [`GEO_INSIGHTS.md`](GEO_INSIGHTS.md) 로 분리했다** (시도→결과→적용 13항목).
+> 재사용 프롬프트: [`prompts/geo-article-system-prompt.md`](prompts/geo-article-system-prompt.md)
+> 아래는 요약이다.
+
 **콘텐츠의 1차 목표는 AI 검색 인용 수집이다.**
 
 실증: "2026 주목 수입 신차 라인업" 검색에서 carfia 글이 인용됨 — **H2가 검색어와 1:1**로 대응한 케이스.
