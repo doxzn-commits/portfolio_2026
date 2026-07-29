@@ -131,6 +131,7 @@
 | **`GSC_BOARD_OPS.md`** | 카피아 게시판 운영 — CTA 10,000 전략 (목표 2026-09-15) |
 | **`CARFIA_CMS_OPS.md`** | 카피아 CMS 운영 지식 — 인프라·발행 자동화·콘텐츠 규칙·성과 측정 |
 | **`GEO_INSIGHTS.md`** | AI 검색 인용 인사이트 — 시도→결과→적용 13항목 |
+| **`GSC_PERFORMANCE_LEDGER.md`** | 📊 **GSC 성과 대장** — 새 데이터를 받을 때마다 병합하는 누적 문서 |
 | **`prompts/geo-article-system-prompt.md`** | ♻️ **재사용 프롬프트** — GEO 원고 생성기 시스템 프롬프트 (원문 보존) |
 | `web_prototype/SPEC.md` | 구현 규격 — 구조·상수·인터랙션 계약·검증 스크립트 |
 | `PORTFOLIO_WEB_PLAN.md` | 기획 배경 — 왜 이 구조인지, 수치 근거, 대안 비교 |
