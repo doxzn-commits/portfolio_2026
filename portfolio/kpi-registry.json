@@ -1,0 +1,248 @@
+{
+  "_readme": [
+    "이 파일이 포트폴리오 성과 수치의 단일 출처다.",
+    "수치를 고칠 때는 여기를 먼저 고치고, 소비 문서(appearsIn)를 맞춘 뒤 `node tools/check-kpi.js`로 검사한다.",
+    "value는 소비 문서에 '문자 그대로' 등장해야 하는 토큰이다. 표기(굵게·괄호·조사)는 자유지만 이 문자열은 유지한다.",
+    "provenance: 원천검증 = 저장소에 원천 파일 있음 / 본인확인 = 본인 진술·제출 덱 기준, 원천 파일 없음 / 미검증 = 인용 금지"
+  ],
+  "_updated": "2026-07-29",
+  "banned": {
+    "_note": "폐기된 수치. 아래 파일을 제외한 어디에도 등장해서는 안 된다.",
+    "tokens": [
+      "387건",
+      "429명",
+      "482명",
+      "18.8%"
+    ],
+    "allowedIn": [
+      "WORK.md",
+      "web_prototype/SPEC.md",
+      "carfia/README.md",
+      "carfia/archive/13_내부_콘텐츠_자동화_발행_시스템_성과_포트폴리오.md",
+      "carfia/board/GSC_PERFORMANCE_LEDGER.md",
+      "portfolio/AI_PROJECT_HISTORY.md",
+      "portfolio/PORTFOLIO_WEB_PLAN.md",
+      "portfolio/kpi-registry.json",
+      "job-search/토스_면접_스크립트_기획안.md"
+    ]
+  },
+  "items": [
+    {
+      "id": "board-cta-after",
+      "label": "내부 게시판 6월 CTA 클릭 (AI 발행)",
+      "value": "329건",
+      "provenance": "원천검증",
+      "source": "source_materials/AI 도입 전후 비교 (6월).xlsx",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "portfolio/AI_PROJECT_HISTORY.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "board-cvr",
+      "label": "내부 게시판 6월 상담 전환율",
+      "value": "1.2%",
+      "provenance": "원천검증",
+      "source": "source_materials/AI 도입 전후 비교 (6월).xlsx",
+      "appearsIn": [
+        "portfolio/AI_PROJECT_HISTORY.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "board-cumulative",
+      "label": "내부 게시판 도입 전 6개월 누적 클릭",
+      "value": "91건",
+      "provenance": "원천검증",
+      "source": "source_materials/AI 도입 전후 비교 (6월).xlsx",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "portfolio/AI_PROJECT_HISTORY.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "push-ctr-avg-before",
+      "label": "앱푸시 평균 CTR (개선 전) — 발송 카피 전체 평균",
+      "value": "0.85%",
+      "provenance": "본인확인",
+      "source": "portfolio/decks/portfolio_doyujin_toss_growth_2026.html",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "portfolio/AI_PROJECT_HISTORY.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "push-ctr-avg-after",
+      "label": "앱푸시 평균 CTR (개선 후) — 발송 카피 전체 평균. 프로젝트 대표 KPI는 이 값을 쓴다",
+      "value": "3.07%",
+      "provenance": "본인확인",
+      "source": "portfolio/decks/portfolio_doyujin_toss_growth_2026.html",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "portfolio/AI_PROJECT_HISTORY.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "push-ctr-before",
+      "label": "대표 사례 CTR (개선 전) — 나이키 후드티 A/B 1건. 평균과 섞지 말 것",
+      "value": "0.50%",
+      "provenance": "본인확인",
+      "source": "portfolio/decks/portfolio_doyujin_toss_growth_2026.html",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "portfolio/AI_PROJECT_HISTORY.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "push-ctr-after",
+      "label": "대표 사례 CTR (개선 후) — 나이키 후드티 A/B 1건. 평균과 섞지 말 것",
+      "value": "2.94%",
+      "provenance": "본인확인",
+      "source": "portfolio/decks/portfolio_doyujin_toss_growth_2026.html",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "portfolio/AI_PROJECT_HISTORY.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "push-rev-before",
+      "label": "대표 사례 건당 매출 (개선 전) — 나이키 후드티 A/B 1건",
+      "value": "837,718",
+      "provenance": "본인확인",
+      "source": "portfolio/decks/portfolio_doyujin_toss_growth_2026.html",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "portfolio/AI_PROJECT_HISTORY.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "push-rev-after",
+      "label": "대표 사례 건당 매출 (개선 후) — 나이키 후드티 A/B 1건",
+      "value": "2,167,700",
+      "provenance": "본인확인",
+      "source": "portfolio/decks/portfolio_doyujin_toss_growth_2026.html",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "portfolio/AI_PROJECT_HISTORY.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "push-yoy",
+      "label": "앱푸시 YoY 매출액 증대",
+      "value": "236%",
+      "provenance": "본인확인",
+      "source": "portfolio/PORTFOLIO_MASTER_2026.md",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "crm-index-after",
+      "label": "CRM 채널 매출 지수 4Q (1Q = 100 기준, +130%)",
+      "value": "4Q = 230",
+      "provenance": "본인확인",
+      "source": "portfolio/PORTFOLIO_MASTER_2026.md",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "portfolio/AI_PROJECT_HISTORY.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "community-members",
+      "label": "커뮤니티 고정 참여인원",
+      "value": "750명",
+      "provenance": "본인확인",
+      "source": "portfolio/PORTFOLIO_MASTER_2026.md",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "community-rev-avg",
+      "label": "커뮤니티 월 평균 결제 기여",
+      "value": "1,000만",
+      "provenance": "본인확인",
+      "source": "portfolio/decks/portfolio_doyujin_toss_growth_2026.html",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "portfolio/AI_PROJECT_HISTORY.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "community-rev-peak",
+      "label": "커뮤니티 최고 월 결제 기여",
+      "value": "2,830만",
+      "provenance": "본인확인",
+      "source": "portfolio/decks/portfolio_doyujin_toss_growth_2026.html",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "portfolio/AI_PROJECT_HISTORY.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "onsite-share",
+      "label": "온사이트 개편 구좌 전사 매출 비중 (이후)",
+      "value": "52%",
+      "provenance": "본인확인",
+      "source": "portfolio/PORTFOLIO_MASTER_2026.md",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "meta-signups",
+      "label": "메타 광고 가입자 달성",
+      "value": "166명",
+      "provenance": "본인확인",
+      "source": "portfolio/PORTFOLIO_MASTER_2026.md",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "influencer-cac",
+      "label": "인플루언서 CAC",
+      "value": "586원",
+      "provenance": "본인확인",
+      "source": "portfolio/PORTFOLIO_MASTER_2026.md",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "web_prototype/index.html"
+      ]
+    },
+    {
+      "id": "db-review-time",
+      "label": "인플루언서 DB 검수 시간 (이후)",
+      "value": "5분",
+      "provenance": "본인확인",
+      "source": "portfolio/AI_PROJECT_HISTORY.md",
+      "appearsIn": [
+        "portfolio/PORTFOLIO_MASTER_2026.md",
+        "portfolio/AI_PROJECT_HISTORY.md",
+        "web_prototype/index.html"
+      ]
+    }
+  ],
+  "unverified": {
+    "_note": "원천이 저장소에 없어 대조하지 못한 수치. 포트폴리오·이력서·면접에 인용 금지.",
+    "items": [
+      "사용자 수 429명 → 482명 (12.4% 증가)",
+      "콘텐츠 CVR 9.7% → 18.8%"
+    ]
+  }
+}

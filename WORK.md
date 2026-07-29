@@ -22,6 +22,27 @@
 
 ## ⚠️ 착수 전 반드시 알아야 할 것 2가지
 
+### 0. 수치를 고치기 전에 — 단일 출처와 검사기
+
+**모든 성과 수치의 단일 출처는 [`portfolio/kpi-registry.json`](portfolio/kpi-registry.json)이다.**
+
+```bash
+node tools/check-kpi.js
+```
+
+이 명령이 두 가지를 잡는다. 종료 코드 0이면 통과, 1이면 문제.
+
+| 검사 | 내용 |
+|---|---|
+| ① 드리프트 | 레지스트리의 수치가 소비 문서(`appearsIn`)에 실제로 있는가 — 누락·오타 |
+| ② 폐기 수치 | `387건` 등이 허용되지 않은 파일에 남아 있는가 — 재발 방지 |
+
+**고치는 순서: 레지스트리 → 소비 문서 → 검사기 실행.** 수치를 바꿀 일이 있으면 반드시 이 순서를 지킨다.
+새 수치를 추가할 때는 `provenance`를 정직하게 적는다 (`원천검증` / `본인확인` / `미검증`).
+
+> ⚠️ **평균과 사례를 구분한다.** 앱푸시 CTR은 두 벌이 존재한다 —
+> 평균 `0.85% → 3.07%`(대표 KPI)와 단일 A/B 사례 `0.50% → 2.94%`. 섞으면 꼬리질문에서 무너진다.
+
 ### 1. 수치는 원천 엑셀로만 검증한다
 
 `source_materials/AI 도입 전후 비교 (6월).xlsx`가 **유일한 근거**다.
@@ -151,7 +172,8 @@
 |---|---|
 | [`portfolio/PORTFOLIO_MASTER_2026.md`](portfolio/PORTFOLIO_MASTER_2026.md) | 포트폴리오 텍스트 마스터 원고 |
 | [`portfolio/PORTFOLIO_WEB_PLAN.md`](portfolio/PORTFOLIO_WEB_PLAN.md) | 웹 기획 배경 — 구조·수치 근거·대안 비교 |
-| [`portfolio/AI_PROJECT_HISTORY.md`](portfolio/AI_PROJECT_HISTORY.md) | KPI 원장 + **수치 검증 규칙** |
+| [`portfolio/kpi-registry.json`](portfolio/kpi-registry.json) | 🔒 **성과 수치 단일 출처** — 여기를 먼저 고친다 |
+| [`portfolio/AI_PROJECT_HISTORY.md`](portfolio/AI_PROJECT_HISTORY.md) | KPI 원장(사람이 읽는 사본) + **수치 검증 규칙** |
 | [`portfolio/decks/`](portfolio/decks/) | 제출 덱 HTML 2종 |
 | `web_prototype/SPEC.md` | 구현 규격 — 구조·상수·인터랙션 계약 |
 
@@ -163,6 +185,7 @@
 
 | 위치 | 내용 |
 |---|---|
+| [`tools/`](tools/) | 🔧 `check-kpi.js` — 수치 드리프트·폐기 수치 검사기 |
 | [`prompts/`](prompts/) | ♻️ 재사용 프롬프트 (GEO 원고 생성기 — 원문 보존) |
 | [`source_materials/`](source_materials/) | 원천 데이터 — 6월 엑셀 · **GSC CSV 6종** · PDF |
 
