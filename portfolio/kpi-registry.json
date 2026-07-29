@@ -7,12 +7,13 @@
   ],
   "_updated": "2026-07-29",
   "banned": {
-    "_note": "폐기된 수치. 아래 파일을 제외한 어디에도 등장해서는 안 된다.",
+    "_note": "폐기된 수치·사실. 아래 파일을 제외한 어디에도 등장해서는 안 된다. (2024.08 = 핌아시아 퇴사월 오기, 인증값은 2024.09)",
     "tokens": [
       "387건",
       "429명",
       "482명",
-      "18.8%"
+      "18.8%",
+      "2024.08"
     ],
     "allowedIn": [
       "WORK.md",
@@ -23,6 +24,7 @@
       "portfolio/AI_PROJECT_HISTORY.md",
       "portfolio/PORTFOLIO_WEB_PLAN.md",
       "portfolio/kpi-registry.json",
+      "job-search/토스_면접_스크립트_기획안.md",
       "job-search/토스_면접_스크립트_기획안.md"
     ]
   },
