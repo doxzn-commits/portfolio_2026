@@ -4,7 +4,7 @@
 > 새 환경의 원고 생성 AI에 그대로 주입한다.
 >
 > - 보존일: 2026-07-28
-> - 근거 인사이트: [`GEO_INSIGHTS.md`](../GEO_INSIGHTS.md)
+> - 근거 인사이트: [`GEO_INSIGHTS.md`](../carfia/board/GEO_INSIGHTS.md)
 > - 채워야 할 자리: `⟪ ⟫` **4곳** (주제 영역 · 독자 · 서비스 범위 · 고유 데이터)
 > - ⚠️ 발행 채널이 새니타이저가 강한 게시판(네이버 등)이면 **인라인 CSS 위생 규칙**을 별도로 덧붙여야 한다 → [부록](#부록--게시판형-cms-발행-위생-규칙)
 
@@ -121,4 +121,4 @@ CSS: mark{background:#fff3bf;color:#191f28;padding:1px 4px;border-radius:4px;fon
 - 이미지 위 텍스트 오버레이 CSS 불가 → 필요하면 이미지에 직접 합성.
 ```
 
-→ 근거와 실증 사례: [`CARFIA_CMS_OPS.md` E-3 · E-4](../CARFIA_CMS_OPS.md)
+→ 근거와 실증 사례: [`CARFIA_CMS_OPS.md` E-3 · E-4](../carfia/cms/CARFIA_CMS_OPS.md)

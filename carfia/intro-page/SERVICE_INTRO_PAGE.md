@@ -1,6 +1,6 @@
 # SERVICE_INTRO_PAGE — 카피아 서비스 소개 페이지
 
-> 저장소의 **세 번째 갈래**. ①포트폴리오 웹([`WORK.md`](WORK.md)) ②게시판 운영([`GSC_BOARD_OPS.md`](GSC_BOARD_OPS.md)) ③이 문서.
+> 저장소의 **세 번째 갈래**. ①포트폴리오 웹([`WORK.md`](../../WORK.md)) ②게시판 운영([`GSC_BOARD_OPS.md`](../board/GSC_BOARD_OPS.md)) ③이 문서.
 > 최종 갱신: 2026-07-27
 
 ---

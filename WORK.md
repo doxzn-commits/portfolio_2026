@@ -8,8 +8,8 @@
 ## 지금 무엇을 하고 있나
 
 > 이 저장소에는 현재 **세 갈래**의 일이 있다.
-> ① 포트폴리오 웹 (이 문서) ② 카피아 게시판 운영 — [`GSC_BOARD_OPS.md`](GSC_BOARD_OPS.md)
-> ③ 카피아 서비스 소개 페이지 — [`SERVICE_INTRO_PAGE.md`](SERVICE_INTRO_PAGE.md)
+> ① 포트폴리오 웹 (이 문서) ② 카피아 게시판 운영 — [`GSC_BOARD_OPS.md`](carfia/board/GSC_BOARD_OPS.md)
+> ③ 카피아 서비스 소개 페이지 — [`SERVICE_INTRO_PAGE.md`](carfia/intro-page/SERVICE_INTRO_PAGE.md)
 
 도유진(그로스 마케터)의 **포트폴리오 웹사이트**를 만들고 있다.
 토스 지원용 PDF 포트폴리오는 이미 제출됐고, 지금은 그 내용을 인터랙티브 웹으로 옮기는 중이다.
@@ -125,21 +125,53 @@
 
 ## 문서 지도
 
+> **2026-07-29 폴더 재구성.** 문서를 영역별로 옮겼다. 아래는 새 경로다.
+
+### 루트
+
 | 문서 | 내용 |
 |---|---|
-| **`WORK.md`** | 이 문서 — 포트폴리오 웹 진행 상황·다음 할 일 |
-| **`GSC_BOARD_OPS.md`** | 카피아 게시판 운영 — CTA 10,000 전략 (목표 2026-09-15) |
-| **`CARFIA_CMS_OPS.md`** | 카피아 CMS 운영 지식 — 인프라·발행 자동화·콘텐츠 규칙·성과 측정 |
-| **`GEO_INSIGHTS.md`** | AI 검색 인용 인사이트 — 시도→결과→적용 13항목 |
-| **`GSC_PERFORMANCE_LEDGER.md`** | 📊 **GSC 성과 대장** — 새 데이터를 받을 때마다 병합하는 누적 문서 |
-| **`prompts/geo-article-system-prompt.md`** | ♻️ **재사용 프롬프트** — GEO 원고 생성기 시스템 프롬프트 (원문 보존) |
-| `web_prototype/SPEC.md` | 구현 규격 — 구조·상수·인터랙션 계약·검증 스크립트 |
-| `PORTFOLIO_WEB_PLAN.md` | 기획 배경 — 왜 이 구조인지, 수치 근거, 대안 비교 |
-| `AI_PROJECT_HISTORY.md` | KPI 원장 + **수치 검증 규칙** |
+| **`WORK.md`** | 이 문서 — 저장소 허브 · 포트폴리오 웹 진행 상황 |
 | `AI_COLLABORATION_RULES.md` | AI 협업 규칙 |
-| `PORTFOLIO_MASTER_2026.md` | 포트폴리오 텍스트 마스터 원고 |
-| `portfolio_doyujin_toss_growth_2026.html` | 토스 제출 덱 (PDF 원본) |
-| `claude_history_transfer/` | 프로젝트별 상세 아카이브 (13번이 수치 근거) |
+
+### [`carfia/`](carfia/) — 카피아 프로젝트 → [지도](carfia/README.md)
+
+| 문서 | 내용 |
+|---|---|
+| [`carfia/board/GSC_BOARD_OPS.md`](carfia/board/GSC_BOARD_OPS.md) | 게시판 운영 — CTA 10,000 전략 (목표 2026-09-15) |
+| [`carfia/board/GSC_PERFORMANCE_LEDGER.md`](carfia/board/GSC_PERFORMANCE_LEDGER.md) | 📊 **GSC 성과 대장** — 데이터를 받을 때마다 병합 |
+| [`carfia/board/GEO_INSIGHTS.md`](carfia/board/GEO_INSIGHTS.md) | AI 검색 인용 인사이트 13항목 |
+| [`carfia/cms/CARFIA_CMS_OPS.md`](carfia/cms/CARFIA_CMS_OPS.md) | CMS 운영 지식 — 인프라·발행 자동화·콘텐츠 규칙·구현 함정 |
+| [`carfia/intro-page/SERVICE_INTRO_PAGE.md`](carfia/intro-page/SERVICE_INTRO_PAGE.md) | 카피아 소개 페이지 기획·작업 로그 |
+| [`carfia/archive/`](carfia/archive/) | 프로젝트별 상세 아카이브 (**13번이 수치 근거**) |
+
+### [`portfolio/`](portfolio/) — 포트폴리오
+
+| 문서 | 내용 |
+|---|---|
+| [`portfolio/PORTFOLIO_MASTER_2026.md`](portfolio/PORTFOLIO_MASTER_2026.md) | 포트폴리오 텍스트 마스터 원고 |
+| [`portfolio/PORTFOLIO_WEB_PLAN.md`](portfolio/PORTFOLIO_WEB_PLAN.md) | 웹 기획 배경 — 구조·수치 근거·대안 비교 |
+| [`portfolio/AI_PROJECT_HISTORY.md`](portfolio/AI_PROJECT_HISTORY.md) | KPI 원장 + **수치 검증 규칙** |
+| [`portfolio/decks/`](portfolio/decks/) | 제출 덱 HTML 2종 |
+| `web_prototype/SPEC.md` | 구현 규격 — 구조·상수·인터랙션 계약 |
+
+### [`job-search/`](job-search/) — 구직
+
+토스(면접 기획안·지원서) · 엔비티 커피챗 · 리멤버 프로필 · 위시캣
+
+### 공용
+
+| 위치 | 내용 |
+|---|---|
+| [`prompts/`](prompts/) | ♻️ 재사용 프롬프트 (GEO 원고 생성기 — 원문 보존) |
+| [`source_materials/`](source_materials/) | 원천 데이터 — 6월 엑셀 · **GSC CSV 6종** · PDF |
+
+### ⚠️ 이동 금지
+
+| 경로 | 이유 |
+|---|---|
+| `web_prototype/` | **Vercel 배포 Root Directory** — 옮기면 배포가 깨진다 |
+| `carfia-intro/` | Next.js 빌드 루트 |
 
 ---
 

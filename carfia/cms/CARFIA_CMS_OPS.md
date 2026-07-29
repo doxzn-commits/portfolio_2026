@@ -2,7 +2,7 @@
 
 > 카피아 마케팅 콘텐츠 자동 발행 시스템의 **운영·규칙 지식 베이스**
 > 최종 갱신: 2026-07-28
-> 자매 문서: [`GSC_BOARD_OPS.md`](GSC_BOARD_OPS.md) (CTA 10,000 전략) · [`WORK.md`](WORK.md) (포트폴리오 웹)
+> 자매 문서: [`GSC_BOARD_OPS.md`](../board/GSC_BOARD_OPS.md) (CTA 10,000 전략) · [`WORK.md`](../../WORK.md) (포트폴리오 웹)
 
 각 항목의 `project_*` / `feedback_*` / `reference_*` 키는 원본 메모리 식별자다. 검색용으로 유지한다.
 
@@ -172,8 +172,8 @@ prisma 스키마 수정 → generate 누락 → API 빌드 실패 → 4517 다�
 ### C-1. 1차 목표 = AI 검색 인용
 `project_ai_citation_goal`
 
-> 📎 **상세 인사이트는 [`GEO_INSIGHTS.md`](GEO_INSIGHTS.md) 로 분리했다** (시도→결과→적용 13항목).
-> 재사용 프롬프트: [`prompts/geo-article-system-prompt.md`](prompts/geo-article-system-prompt.md)
+> 📎 **상세 인사이트는 [`GEO_INSIGHTS.md`](../board/GEO_INSIGHTS.md) 로 분리했다** (시도→결과→적용 13항목).
+> 재사용 프롬프트: [`prompts/geo-article-system-prompt.md`](../../prompts/geo-article-system-prompt.md)
 > 아래는 요약이다.
 
 **콘텐츠의 1차 목표는 AI 검색 인용 수집이다.**

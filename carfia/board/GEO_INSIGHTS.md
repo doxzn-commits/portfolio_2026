@@ -2,8 +2,8 @@
 
 > 카피아 콘텐츠 운영에서 **시도 → 결과 → 적용**으로 축적한 인사이트
 > 최종 갱신: 2026-07-28
-> 재사용 자산: [`prompts/geo-article-system-prompt.md`](prompts/geo-article-system-prompt.md) — 이 인사이트를 압축한 시스템 프롬프트
-> 자매 문서: [`CARFIA_CMS_OPS.md`](CARFIA_CMS_OPS.md) (운영·구현) · [`GSC_BOARD_OPS.md`](GSC_BOARD_OPS.md) (CTA 전략)
+> 재사용 자산: [`prompts/geo-article-system-prompt.md`](../../prompts/geo-article-system-prompt.md) — 이 인사이트를 압축한 시스템 프롬프트
+> 자매 문서: [`CARFIA_CMS_OPS.md`](../cms/CARFIA_CMS_OPS.md) (운영·구현) · [`GSC_BOARD_OPS.md`](GSC_BOARD_OPS.md) (CTA 전략)
 
 ---
 
@@ -149,5 +149,5 @@ mark { background:#fff3bf; color:#191f28; padding:1px 4px; border-radius:4px; fo
 **"인라인 CSS만 생존 · 표는 `table-layout:fixed` · grid/flex 금지"** 같은 **발행 위생 규칙이 추가로 필요**하다.
 
 그건 **원고 생성이 아니라 발행 채널 특성**이다.
-→ 채널별 위생 규칙: [`prompts/geo-article-system-prompt.md` 부록](prompts/geo-article-system-prompt.md#부록--게시판형-cms-발행-위생-규칙)
-→ 실증 사례: [`CARFIA_CMS_OPS.md` E-3 · E-4](CARFIA_CMS_OPS.md)
+→ 채널별 위생 규칙: [`prompts/geo-article-system-prompt.md` 부록](../../prompts/geo-article-system-prompt.md#부록--게시판형-cms-발행-위생-규칙)
+→ 실증 사례: [`CARFIA_CMS_OPS.md` E-3 · E-4](../cms/CARFIA_CMS_OPS.md)
