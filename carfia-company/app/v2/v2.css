@@ -1,0 +1,411 @@
+/* ===========================================================
+   ver.2 — 설명 중심 / 도식 중심
+
+   ver.1 이 제안서 톤이라면 ver.2 는 설명서 톤이다.
+   글로 설명하지 않고 그림으로 보여준다. 중학생이 읽어도 막히지 않는 눈높이.
+
+   globals.css 가 모든 라우트에 깔리므로 클래스는 x- 접두사로 격리한다.
+   색·폰트 토큰은 globals.css 의 것을 그대로 쓴다 (브랜드는 하나여야 한다).
+   =========================================================== */
+
+.x-wrap { width: 100%; max-width: 1080px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 36px); }
+.x-sec { padding-block: clamp(72px, 9vw, 124px); }
+.x-sec--tint { background: var(--surface); }
+.x-sec--mint { background: linear-gradient(180deg, #f2fff6, #fafafa); }
+
+/* 섹션 머리 — 가운데 정렬. 설명은 가운데에서 시작해야 읽는 흐름이 잡힌다 */
+.x-head { text-align: center; margin-bottom: clamp(38px, 5vw, 64px); }
+.x-head__tag {
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: #e7fdec;
+  border-radius: 999px;
+  padding: 7px 15px;
+  margin-bottom: 18px;
+}
+.x-head h2 {
+  font-size: clamp(1.62rem, 4.2vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.34;
+  text-wrap: balance;
+}
+.x-head h2 em { font-style: normal; color: var(--accent-ink); }
+.x-head p {
+  margin: 16px auto 0;
+  max-width: 44ch;
+  font-size: clamp(0.98rem, 1.3vw, 1.08rem);
+  color: var(--ink-2);
+  line-height: 1.76;
+}
+
+/* ─────────── 히어로 ─────────── */
+
+.x-hero { padding-block: clamp(112px, 14vh, 156px) clamp(56px, 7vw, 88px); text-align: center; }
+.x-hero h1 {
+  font-size: clamp(1.95rem, 5.6vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.28;
+  max-width: 18ch;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+.x-hero h1 em { font-style: normal; color: var(--accent-ink); }
+.x-hero__sub {
+  margin: 22px auto 0;
+  max-width: 40ch;
+  font-size: clamp(1rem, 1.4vw, 1.14rem);
+  color: var(--ink-2);
+  line-height: 1.8;
+}
+.x-hero__cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 34px; }
+.x-hero__note { margin-top: 16px; font-size: 0.8125rem; color: var(--ink-3); }
+
+/* 히어로 아래 큰 숫자 3개 */
+.x-nums { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: clamp(48px, 6vw, 76px); }
+@media (min-width: 700px) { .x-nums { grid-template-columns: repeat(3, 1fr); } }
+.x-num {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 28px 24px 30px;
+  text-align: center;
+}
+.x-num b {
+  display: block;
+  font-size: clamp(1.9rem, 4.6vw, 2.7rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.06;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-ink);
+}
+.x-num b i { font-style: normal; font-size: 0.46em; margin-left: 3px; }
+.x-num span { display: block; margin-top: 12px; font-size: 0.9375rem; font-weight: 600; }
+.x-num small { display: block; margin-top: 5px; font-size: 0.8125rem; color: var(--ink-3); }
+
+/* ─────────── 도식 1: 지금 vs 카피아 ─────────── */
+
+.x-vs { display: grid; gap: 18px; }
+@media (min-width: 900px) { .x-vs { gap: 22px; } }
+
+.x-row {
+  border-radius: 22px;
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.x-row--bad { background: #fafafa; }
+.x-row--good { border-color: var(--accent); background: linear-gradient(180deg, #f4fff8, #fff 60%); box-shadow: 0 10px 34px rgba(0, 196, 37, 0.12); }
+
+.x-row__label { display: flex; align-items: center; gap: 9px; font-size: 0.9375rem; font-weight: 800; margin-bottom: 22px; }
+.x-row__label i { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-style: normal; color: #fff; }
+.x-row--bad .x-row__label { color: var(--ink-3); }
+.x-row--bad .x-row__label i { background: var(--ink-4); }
+.x-row--good .x-row__label { color: var(--accent-ink); }
+.x-row--good .x-row__label i { background: var(--accent-ink); }
+
+/* 노드 → 화살표 → 노드 흐름. 좁은 화면에서는 세로로 접힌다 */
+.x-flowline { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+@media (min-width: 760px) { .x-flowline { flex-direction: row; align-items: stretch; gap: 6px; } }
+
+.x-node {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px 16px 20px;
+  text-align: center;
+  width: 100%;
+}
+.x-row--bad .x-node { background: #fff; }
+.x-node__ic { font-size: 30px; line-height: 1; display: block; margin-bottom: 10px; }
+.x-node__t { display: block; font-size: 0.9375rem; font-weight: 700; letter-spacing: -0.02em; }
+.x-node__d { display: block; margin-top: 6px; font-size: 0.8125rem; color: var(--ink-3); line-height: 1.55; }
+.x-node--hi { border-color: var(--accent); background: #edfff2; }
+.x-node--hi .x-node__t { color: var(--accent-ink); }
+
+/* 화살표 — 세로일 때는 아래쪽, 가로일 때는 오른쪽을 가리킨다 */
+.x-arrow { display: grid; place-items: center; color: var(--ink-4); font-size: 18px; flex: none; }
+@media (min-width: 760px) { .x-arrow { width: 26px; } }
+.x-arrow::before { content: "↓"; }
+@media (min-width: 760px) { .x-arrow::before { content: "→"; } }
+.x-row--good .x-arrow { color: var(--accent); }
+
+.x-row__out {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line);
+  text-align: center;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+.x-row--bad .x-row__out { color: var(--ink-3); }
+.x-row--good .x-row__out { color: var(--accent-ink); }
+.x-row--good .x-row__out b { font-size: 1.1em; }
+
+/* ─────────── 두 갈래 ─────────── */
+
+.x-two { display: grid; gap: 16px; }
+@media (min-width: 820px) { .x-two { grid-template-columns: 1fr 1fr; gap: 20px; } }
+.x-two > .reveal { height: 100%; }
+.x-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: clamp(26px, 3.4vw, 38px);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.x-card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(17, 24, 28, 0.1); }
+.x-card__ic {
+  width: 84px;
+  height: 84px;
+  border-radius: 26px;
+  background: linear-gradient(160deg, #eafff0, #d2fadd);
+  display: grid;
+  place-items: center;
+  font-size: 42px;
+  line-height: 1;
+  margin-bottom: 22px;
+  box-shadow: inset 0 -3px 8px rgba(0, 130, 30, 0.08), 0 8px 20px rgba(0, 196, 37, 0.16);
+  transition: transform 0.35s var(--ease);
+}
+.x-card:hover .x-card__ic { transform: translateY(-4px) rotate(-5deg); }
+.x-card__when { font-size: 0.8125rem; font-weight: 700; color: var(--accent-ink); margin-bottom: 9px; }
+.x-card__t { font-size: clamp(1.3rem, 2.8vw, 1.72rem); font-weight: 800; letter-spacing: -0.04em; margin-bottom: 12px; }
+.x-card__d { font-size: 0.97rem; color: var(--ink-2); line-height: 1.76; }
+.x-card__l { margin-top: 20px; display: grid; gap: 11px; }
+.x-card__l li { display: flex; gap: 10px; font-size: 0.9375rem; color: var(--ink-2); line-height: 1.6; }
+.x-card__l li::before { content: "✓"; color: var(--accent-ink); font-weight: 800; flex: none; }
+.x-card__foot { margin-top: auto; padding-top: 26px; }
+
+/* ─────────── 도식 2: 5단계 파이프라인 ─────────── */
+
+.x-pipe { display: grid; gap: 0; }
+@media (min-width: 960px) { .x-pipe { grid-template-columns: repeat(5, 1fr); gap: 8px; } }
+.x-step { position: relative; display: flex; gap: 16px; padding-bottom: 26px; }
+@media (min-width: 960px) { .x-step { flex-direction: column; gap: 0; padding-bottom: 0; text-align: center; } }
+
+/* 세로(모바일)일 때는 왼쪽에 세로선, 가로(데스크톱)일 때는 위쪽에 가로선 */
+.x-step__no {
+  position: relative;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #04240b;
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: grid;
+  place-items: center;
+  z-index: 1;
+  box-shadow: 0 4px 12px rgba(0, 196, 37, 0.28);
+}
+@media (min-width: 960px) { .x-step__no { margin: 0 auto 18px; } }
+.x-step::before {
+  content: "";
+  position: absolute;
+  background: #d2f5db;
+  left: 22px;
+  top: 46px;
+  bottom: 0;
+  width: 2px;
+}
+@media (min-width: 960px) {
+  .x-step::before { left: 50%; right: -8px; top: 22px; bottom: auto; width: auto; height: 2px; }
+}
+.x-step:last-child::before { display: none; }
+.x-step__b { padding-top: 4px; }
+@media (min-width: 960px) { .x-step__b { padding-top: 0; } }
+.x-step__t { font-size: 1.06rem; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 8px; }
+.x-step__d { font-size: 0.9375rem; color: var(--ink-2); line-height: 1.66; }
+.x-step__old { margin-top: 10px; font-size: 0.8125rem; color: var(--ink-4); }
+.x-step__old em { font-style: normal; margin-right: 6px; }
+
+/* ─────────── 도식 3: 수수료가 줄어드는 그림 ─────────── */
+
+.x-fee { display: grid; gap: 20px; }
+@media (min-width: 780px) { .x-fee { grid-template-columns: 1fr 1fr; gap: 26px; } }
+.x-fee__col { background: #fff; border: 1px solid var(--line); border-radius: 22px; padding: 26px 24px 28px; }
+.x-fee__col--good { border-color: var(--accent); background: linear-gradient(180deg, #f4fff8, #fff 60%); }
+.x-fee__h { font-size: 0.9375rem; font-weight: 800; margin-bottom: 20px; }
+.x-fee__col--bad .x-fee__h { color: var(--ink-3); }
+.x-fee__col--good .x-fee__h { color: var(--accent-ink); }
+/*
+  주의 — 이 막대들의 클래스는 절대 .x-bar 로 시작하면 안 된다.
+  상단 고정 헤더가 .x-bar 라서, BEM 모디파이어로 .x-bar--base 를 쓰면
+  막대들이 헤더의 position:fixed 를 그대로 물려받아 화면 맨 위에 붙는다.
+*/
+.x-bars { display: flex; flex-direction: column-reverse; gap: 4px; }
+.x-feebar {
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.x-feebar--base { background: var(--ink); }
+.x-feebar--fee { background: #d8dadb; color: var(--ink-2); }
+.x-feebar--fee-sm { background: #eceded; color: var(--ink-3); }
+.x-fee__total { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 0.9375rem; font-weight: 800; display: flex; justify-content: space-between; }
+.x-fee__col--good .x-fee__total { color: var(--accent-ink); }
+
+/* ─────────── 연혁 라인 표 ─────────── */
+
+.x-tl { position: relative; padding-left: 26px; }
+.x-tl::before { content: ""; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: var(--line); }
+.x-tl > li { position: relative; padding-bottom: 30px; }
+.x-tl > li:last-child { padding-bottom: 0; }
+.x-tl > li::before {
+  content: "";
+  position: absolute;
+  left: -26px;
+  top: 7px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--ink-4);
+}
+.x-tl > li:last-child::before { border-color: var(--accent); background: var(--accent); }
+.x-tl__y { font-size: 0.9375rem; font-weight: 800; color: var(--accent-ink); font-variant-numeric: tabular-nums; margin-bottom: 6px; }
+.x-tl__t { font-size: 1.02rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+/* 세부 사항은 뱃지가 아니라 작은 줄글로. 뱃지는 항목 하나하나에 무게를 실어 훑기 어렵다 */
+.x-tl__l { display: block; }
+.x-tl__l li { font-size: 0.8125rem; color: var(--ink-3); line-height: 1.72; }
+@media (min-width: 760px) {
+  .x-tl > li { display: grid; grid-template-columns: 96px 1fr; gap: 20px; }
+  .x-tl__y { margin-bottom: 0; padding-top: 2px; }
+}
+
+/* ─────────── 브랜드 로고 월 ─────────── */
+
+.x-logos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 620px) { .x-logos { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 900px) { .x-logos { grid-template-columns: repeat(4, 1fr); } }
+.x-logo {
+  height: 88px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.x-logo:hover { border-color: var(--ink-4); transform: translateY(-2px); }
+.x-logo img { max-height: 34px; width: auto; object-fit: contain; filter: grayscale(1); opacity: 0.72; transition: filter 0.2s var(--ease), opacity 0.2s var(--ease); }
+.x-logo:hover img { filter: none; opacity: 1; }
+
+/*
+  기본은 로고, 마우스를 올리면 한글 이름.
+  두 요소를 같은 칸에 겹쳐 두고 opacity 만 맞바꾼다 — 칸 높이가 흔들리지 않는다.
+  터치 기기에는 hover 가 없으므로 로고만 계속 보인다(hover: hover 로 분기).
+  로고 파일이 아직 없는 자리는 처음부터 한글 이름으로 채운다.
+*/
+.x-logo { position: relative; }
+.x-logo span { font-size: 0.97rem; font-weight: 800; letter-spacing: -0.03em; color: var(--ink-3); text-align: center; }
+.x-logo--has span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  opacity: 0;
+  color: var(--ink);
+  transition: opacity 0.2s var(--ease);
+}
+@media (hover: hover) {
+  .x-logo--has:hover img { opacity: 0; }
+  .x-logo--has:hover span { opacity: 1; }
+}
+.x-logos__note { margin-top: 18px; font-size: 0.8125rem; color: var(--ink-3); text-align: center; }
+.x-logogroup + .x-logogroup { margin-top: clamp(30px, 4vw, 46px); }
+.x-logogroup h3 { font-size: 0.8125rem; font-weight: 700; color: var(--ink-3); text-align: center; margin-bottom: 16px; }
+
+/* ─────────── 자주 묻는 질문 ─────────── */
+
+.x-faq { max-width: 760px; margin-inline: auto; }
+.x-faq details {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 0 22px;
+  margin-bottom: 10px;
+  transition: border-color 0.2s var(--ease);
+}
+.x-faq details[open] { border-color: var(--ink-4); }
+.x-faq summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 20px 0;
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.x-faq summary::-webkit-details-marker { display: none; }
+.x-faq summary::before {
+  content: "Q";
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #e7fdec;
+  color: var(--accent-ink);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+.x-faq summary::after { content: "+"; margin-left: auto; color: var(--ink-4); font-size: 1.3rem; font-weight: 400; }
+.x-faq details[open] summary::after { content: "−"; }
+.x-faq__a { padding: 0 0 22px 38px; font-size: 0.9375rem; color: var(--ink-2); line-height: 1.8; }
+
+/* ─────────── 마무리 CTA ─────────── */
+
+.x-end { text-align: center; }
+.x-end h2 { font-size: clamp(1.6rem, 4.2vw, 2.5rem); font-weight: 800; letter-spacing: -0.042em; line-height: 1.34; text-wrap: balance; }
+.x-end h2 em { font-style: normal; color: var(--accent-ink); }
+.x-end__tel { display: inline-block; margin: 26px 0 6px; font-size: clamp(2rem, 5.4vw, 3rem); font-weight: 800; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
+.x-end__tel:hover { color: var(--accent-ink); }
+.x-end__hr { font-size: 0.8125rem; color: var(--ink-3); }
+.x-end__btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 30px; }
+
+.x-info { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; margin-top: clamp(46px, 6vw, 74px); text-align: left; }
+@media (min-width: 760px) { .x-info { grid-template-columns: 1fr 1fr; } }
+.x-info > div { background: #fff; display: grid; grid-template-columns: 112px 1fr; gap: 16px; padding: 15px 20px; }
+.x-info dt { font-size: 0.8125rem; color: var(--ink-3); }
+.x-info dd { font-size: 0.9375rem; line-height: 1.6; }
+
+/* ─────────── 버전 전환 바 ─────────── */
+
+.x-bar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--line-2);
+}
+.x-bar__in { display: flex; align-items: center; gap: 14px; height: 100%; }
+.x-bar__logo img { height: 18px; width: auto; }
+.x-bar__v { display: flex; gap: 3px; background: var(--surface-2, #f1f2f2); border-radius: 999px; padding: 3px; margin-left: auto; }
+.x-bar__v a { font-size: 0.8125rem; font-weight: 700; color: var(--ink-3); padding: 6px 14px; border-radius: 999px; }
+.x-bar__v a[aria-current="page"] { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(17, 24, 28, 0.12); }
+.x-bar__tel { font-size: 0.9375rem; font-weight: 700; }
+@media (max-width: 559px) { .x-bar__tel { display: none; } }

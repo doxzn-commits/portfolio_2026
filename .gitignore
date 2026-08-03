@@ -18,3 +18,4 @@ carfia-blog-extract.json
 **/.bkit/
 
 .DS_Store
+carfia-company/tsconfig.tsbuildinfo
