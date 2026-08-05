@@ -7,6 +7,8 @@
  *   ① 레지스트리의 각 수치가 소비 문서(appearsIn)에 실제로 있는가  — 누락·오타 탐지
  *   ② 폐기된 수치(banned)가 허용되지 않은 파일에 남아 있는가       — 387건 사고 재발 방지
  *
+ * frozen.files 는 종료된 건의 제출본이라 ②에서 제외한다 (정정하지 않기로 한 문서).
+ *
  * 종료 코드: 0 = 통과, 1 = 문제 발견 (CI·훅에서 쓸 수 있게)
  */
 
@@ -48,10 +50,13 @@ for (const it of reg.items) {
 }
 
 // ── ② 폐기 수치가 허용되지 않은 곳에 있는가
+const match = (list, f) => list.some(a => a.endsWith('/') ? f.startsWith(a) : f === a);
+const frozen = (reg.frozen && reg.frozen.files) || [];
+const frozenHit = new Set();
 const files = walk('.');
 for (const f of files) {
-  const allowed = reg.banned.allowedIn.some(a => a.endsWith('/') ? f.startsWith(a) : f === a);
-  if (allowed) continue;
+  if (match(frozen, f)) { frozenHit.add(f); continue; }   // 종료된 건 — 정정하지 않기로 한 문서
+  if (match(reg.banned.allowedIn, f)) continue;
   const src = read(f);
   if (!src) continue;
   const lines = src.split('\n');
@@ -63,8 +68,13 @@ for (const f of files) {
   }
 }
 
+// ── ③ frozen 목록의 오타·이동 탐지 (조용히 무력화되는 것을 막는다)
+for (const f of frozen) {
+  if (!f.endsWith('/') && !frozenHit.has(f)) problems.push(`[frozen 경로없음] ${f} — 이동·개명됐거나 오타다`);
+}
+
 // ── 결과
-const stamp = `수치 ${reg.items.length}개 · 대조 ${checked}회 · 스캔 ${files.length}개 파일`;
+const stamp = `수치 ${reg.items.length}개 · 대조 ${checked}회 · 스캔 ${files.length}개 파일 · 종료건 제외 ${frozen.length}개`;
 if (problems.length === 0) {
   console.log(`OK  전부 일치합니다.  (${stamp})`);
   process.exit(0);

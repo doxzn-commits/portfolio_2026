@@ -23,14 +23,15 @@
 | 문서 | 역할 |
 |---|---|
 | [`GSC_BOARD_OPS.md`](board/GSC_BOARD_OPS.md) | **작전 문서** — CTA 10,000 전략 (목표 2026-09-15) |
-| [`GSC_PERFORMANCE_LEDGER.md`](board/GSC_PERFORMANCE_LEDGER.md) | 📊 **성과 대장** — GSC 데이터를 받을 때마다 병합하는 누적 문서 |
+| [`GSC_PERFORMANCE_LEDGER.md`](board/GSC_PERFORMANCE_LEDGER.md) | 📊 **유입 대장** — GSC 데이터를 받을 때마다 병합하는 누적 문서 |
+| [`CTA_PERFORMANCE_LEDGER.md`](board/CTA_PERFORMANCE_LEDGER.md) | 📊 **CTA 대장** — CTA 클릭·상담 전환. 원천 검증 완료(2026-08-05), 원본 내부 불일치 4건 기록 |
 | [`GEO_INSIGHTS.md`](board/GEO_INSIGHTS.md) | AI 검색 인용 인사이트 13항목 (시도→결과→적용) |
 
 **핵심 수치** (원천: [`source_materials/`](../source_materials/))
 
 | 지표 | 값 | 기간 |
 |---|---|---|
-| CTA 클릭 | 16 → **329건** | 2026-06 (동월·동일 채널) |
+| CTA 클릭 | 16 → **339건** | 2026-06 (동월·동일 채널) |
 | 상담 전환 | 0 → **4건** (1.2%) | 2026-06 |
 | GSC 검색 클릭 | 478 → **708건** | 6월 → 7월(26일) |
 | GSC 디스커버 클릭 | 0 → **3,517건** | ~6월 → 7월 |

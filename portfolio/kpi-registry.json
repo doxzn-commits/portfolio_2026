@@ -5,7 +5,17 @@
     "value는 소비 문서에 '문자 그대로' 등장해야 하는 토큰이다. 표기(굵게·괄호·조사)는 자유지만 이 문자열은 유지한다.",
     "provenance: 원천검증 = 저장소에 원천 파일 있음 / 본인확인 = 본인 진술·제출 덱 기준, 원천 파일 없음 / 미검증 = 인용 금지"
   ],
-  "_updated": "2026-07-29",
+  "_updated": "2026-08-05",
+  "frozen": {
+    "_note": "종료된 건의 제출본·준비 기록. 수치가 옛 값으로 남아 있어도 정정하지 않는다 — 제출 시점의 정상값이고, 저장소와 제출본이 어긋나면 오히려 혼선이 된다. 검사기는 이 파일들을 폐기수치 스캔(②)에서 제외한다. (2026-08-05 결정 / WORK.md 0절)",
+    "_주의": "carfia/archive/* 는 여기 넣지 않는다. 과거 시점 기록이지만 폐기수치(387건 등) 감시 대상에는 계속 둔다.",
+    "files": [
+      "job-search/토스_지원서_답변_초안.md",
+      "job-search/토스_지원서_항목별_원고.md",
+      "job-search/토스_면접_스크립트_기획안.md",
+      "job-search/엔비티_커피챗_준비.md"
+    ]
+  },
   "banned": {
     "_note": "폐기된 수치·사실. 아래 파일을 제외한 어디에도 등장해서는 안 된다. (2024.08 = 핌아시아 퇴사월 오기, 인증값은 2024.09)",
     "tokens": [
@@ -22,23 +32,26 @@
       "carfia/archive/13_내부_콘텐츠_자동화_발행_시스템_성과_포트폴리오.md",
       "carfia/board/GSC_PERFORMANCE_LEDGER.md",
       "portfolio/AI_PROJECT_HISTORY.md",
+      "portfolio/BOARD_OPS_NARRATIVE.md",
       "portfolio/PORTFOLIO_WEB_PLAN.md",
-      "portfolio/kpi-registry.json",
-      "job-search/토스_면접_스크립트_기획안.md",
-      "job-search/토스_면접_스크립트_기획안.md"
+      "carfia/board/CTA_PERFORMANCE_LEDGER.md",
+      "portfolio/kpi-registry.json"
     ]
   },
   "items": [
     {
       "id": "board-cta-after",
       "label": "내부 게시판 6월 CTA 클릭 (AI 발행)",
-      "value": "329건",
+      "value": "339건",
       "provenance": "원천검증",
-      "source": "source_materials/AI 도입 전후 비교 (6월).xlsx",
+      "source": "카피아 관리자 대시보드 UTM 그룹(ch_032) 2026-06 조회 / 추출본 source_materials/cta/202606_utm_breakdown.csv",
+      "revision": "2026-08-05: 329건 → 339건. 329는 엑셀 추출 시점값(원천 일별 합산 검증됨), 339는 관리자 대시보드 현재값. 차이 10건은 UTM 그룹에 뒤늦게 편입된 코드가 소급 집계된 것. 대시보드 값을 기준으로 삼는다. 329는 폐기값이 아니므로 banned 처리하지 않는다 — 기제출 지원서류에 남아 있어도 오류가 아니다. 상세: carfia/board/CTA_PERFORMANCE_LEDGER.md 2절",
       "appearsIn": [
         "portfolio/PORTFOLIO_MASTER_2026.md",
         "portfolio/AI_PROJECT_HISTORY.md",
-        "web_prototype/index.html"
+        "web_prototype/index.html",
+        "carfia/README.md",
+        "portfolio/BOARD_OPS_NARRATIVE.md"
       ]
     },
     {
@@ -54,10 +67,11 @@
     },
     {
       "id": "board-cumulative",
-      "label": "내부 게시판 도입 전 6개월 누적 클릭",
-      "value": "91건",
+      "label": "내부 게시판 도입 전 6개월 누적 클릭 (old = UTM 5o)",
+      "value": "92건",
       "provenance": "원천검증",
-      "source": "source_materials/AI 도입 전후 비교 (6월).xlsx",
+      "source": "카피아 관리자 대시보드 UTM `5o`(홈페이지내프로모션) 2026-01~06 / 그룹 `카피아 게시판(old)` 조회로 교차검증",
+      "revision": "2026-08-05: 91건 → 92건. 엑셀 old 시트에 6/30 행이 없었고 그날 1클릭이 있었다. 같은 이유로 old 6월 단월도 16 → 17. 전환 6건은 엑셀·대시보드 일치(1/1/1/0/3/0). 상세: carfia/board/CTA_PERFORMANCE_LEDGER.md 2절",
       "appearsIn": [
         "portfolio/PORTFOLIO_MASTER_2026.md",
         "portfolio/AI_PROJECT_HISTORY.md",
