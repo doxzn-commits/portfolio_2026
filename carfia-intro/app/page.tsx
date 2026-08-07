@@ -3,8 +3,9 @@ import Reveal from "./components/Reveal";
 import HowItWorks from "./components/HowItWorks";
 import Offerings from "./components/Offerings";
 import Calculator from "./components/Calculator";
+import CompareTable from "./components/CompareTable";
 import CountUp from "./components/CountUp";
-import { SITE, DEFINITION, BOARDS, BRANDS, PROOF_STATS, REVIEWS, FAQS } from "./data";
+import { SITE, DEFINITION, BOARDS, BRANDS, PROOF_STATS, FAQS } from "./data";
 
 /** S2 — 랜딩의 "문제 제기"가 아니라 상세 페이지의 "이런 분께 권합니다" */
 const FORWHO = [
@@ -48,13 +49,21 @@ export default function IntroPage() {
 
           <div className="wrap">
             <Reveal>
-              {/* 핵심 문장은 이미지가 아니라 텍스트 — AI 가 읽어야 한다 */}
+              {/* 핵심 문장은 이미지가 아니라 텍스트 — AI 가 읽어야 한다. 키워드+브랜드 h1 */}
               <h1 className="hero__h1">
-                수입차, <em>정가 주고 사면</em> 손해입니다
+                수입차 전국 할인가 비교 서비스, <span className="hero__brand">카피아</span>
               </h1>
 
-              {/* h1 직후 첫 문단 = AI 가 그대로 인용할 정의문 */}
-              <p className="hero__def">{DEFINITION}</p>
+              {/* h1 직후 첫 문단 = AI 가 그대로 인용할 정의문. 강점 문구는 화면에서 강조(마크업).
+                  DEFINITION 원문(평문)은 meta·JSON-LD·FAQ에서 그대로 쓴다 → 화면만 강조. */}
+              <p className="hero__def">
+                카피아(Carfia)는{" "}
+                <mark className="hero__def-hl">
+                  딜러사마다 다른 수입차 할인가를 비교해 지금 받을 수 있는 최고 할인가
+                </mark>
+                를 알려주고, 할부·리스·장기렌트 조건까지 함께 확인해 실구매가를 알려주는 수입차 프로모션
+                비교 서비스입니다.
+              </p>
 
               <div className="hero__cta">
                 <a href={BOARDS.promotion.path} className="btn btn--primary">
@@ -71,21 +80,48 @@ export default function IntroPage() {
           </div>
         </section>
 
-        {/* ================= S2 이런 분께 ================= */}
-        <section className="section section--surface" aria-label="추천 대상 — 카피아가 해결하는 고민">
-
+        {/* ================= 01 오직 카피아에서만 (그래프 + 제공 콘텐츠) ================= */}
+        <section className="section section--surface" aria-label="제공 콘텐츠 — 할인 추이 그래프와 수입차 프로모션·핫딜·차량 꿀팁">
           <div className="wrap">
             <div className="sec-head">
               <Reveal>
                 <p className="eyebrow">
-                  <b>01</b> 이런 분께
+                  <b>01</b> 오직 카피아에서만
                 </p>
-                <h2 className="h2">이런 고민, 딱 하나라도 있으신가요?</h2>
+                <h2 className="h2">이건, 카피아가 제일 잘합니다</h2>
                 <p className="lead">
-                  하나라도 해당된다면, 카피아가 당신의 시간과 돈을 아껴드립니다.
+                  딜러사마다 다른 할인가를 비교해 최고 할인가를. 프로모션·핫딜·꿀팁까지 이만큼 부지런히 챙기는
+                  곳은 흔치 않습니다. 게다가 전부 무료예요.
                 </p>
               </Reveal>
             </div>
+            <Reveal>
+              <Offerings />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ================= 02 이런 분께 ================= */}
+        <section className="section" aria-label="추천 대상 — 카피아가 해결하는 고민">
+          <div className="wrap">
+            <div className="sec-head">
+              <Reveal>
+                <p className="eyebrow">
+                  <b>02</b> 이런 분께
+                </p>
+                <h2 className="h2">이런 고민, 딱 하나라도 있으신가요?</h2>
+                <p className="lead">
+                  하나라도 해당된다면 잘 오셨어요.
+                </p>
+              </Reveal>
+            </div>
+            <Reveal>
+              <p className="who-strength">
+                <b>카피아는 딜러사마다 다른 할인가를 비교해, 지금 받을 수 있는 최고 할인가를 알려드립니다.</b>{" "}
+                여기에 할부·리스·장기렌트 조건까지 함께 확인해 실구매가로 보여주는 수입차 프로모션 비교
+                서비스예요.
+              </p>
+            </Reveal>
             <div className="forwho">
               {FORWHO.map((w, i) => (
                 <Reveal key={w.q} delay={i * 80}>
@@ -104,14 +140,14 @@ export default function IntroPage() {
           </div>
         </section>
 
-        {/* ================= S3 사용 방법 (설명서 핵심) ================= */}
-        <section className="section" aria-label="카피아 사용 방법 4단계">
+        {/* ================= 03 사용 방법 (설명서 핵심) ================= */}
+        <section className="section section--surface" aria-label="카피아 사용 방법 4단계">
 
           <div className="wrap">
             <div className="sec-head">
               <Reveal>
                 <p className="eyebrow">
-                  <b>02</b> 사용 방법
+                  <b>03</b> 사용 방법
                 </p>
                 <h2 className="h2">차 고르고 견적까지, 4단계면 끝</h2>
                 <p className="lead">
@@ -123,28 +159,7 @@ export default function IntroPage() {
           </div>
         </section>
 
-        {/* ================= S4 제공 콘텐츠 ================= */}
-        <section className="section section--surface" aria-label="제공 콘텐츠 — 수입차 프로모션·핫딜·차량 꿀팁">
-
-          <div className="wrap">
-            <div className="sec-head">
-              <Reveal>
-                <p className="eyebrow">
-                  <b>03</b> 오직 카피아에서만
-                </p>
-                <h2 className="h2">이건, 카피아가 제일 잘합니다</h2>
-                <p className="lead">
-                  프로모션·핫딜·꿀팁, 세 가지를 이만큼 부지런히 챙기는 곳은 흔치 않습니다. 게다가 전부 무료예요.
-                </p>
-              </Reveal>
-            </div>
-            <Reveal>
-              <Offerings />
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ================= S5 미리 체험 ================= */}
+        {/* ================= 04 미리 체험 ================= */}
         <section className="section" aria-label="구매 방식별 월 납입금 비교 체험">
 
           <div className="wrap">
@@ -162,11 +177,16 @@ export default function IntroPage() {
             <Reveal>
               <Calculator />
             </Reveal>
+
+            <Reveal delay={80}>
+              <h3 className="cmp__title">구매 방식 한눈에 비교</h3>
+              <CompareTable />
+            </Reveal>
           </div>
         </section>
 
-        {/* ================= S6 신뢰 근거 ================= */}
-        <section className="section section--surface" aria-label="신뢰 근거와 상담 후기">
+        {/* ================= 05 신뢰 근거 ================= */}
+        <section className="section section--surface" aria-label="신뢰 근거 — 이용 실적과 취급 브랜드">
 
           <div className="wrap">
             <div className="sec-head">
@@ -174,7 +194,7 @@ export default function IntroPage() {
                 <p className="eyebrow">
                   <b>05</b> 대중이 선택했습니다
                 </p>
-                <h2 className="h2">10년의 베테랑이 진행합니다</h2>
+                <h2 className="h2">15년의 베테랑이 진행합니다</h2>
                 <p className="lead">
                   카피아는 2011년 자동차금융에서 출발했습니다. 프로모션 비교는 그 내공 위에 얹은 서비스예요.
                 </p>
@@ -205,38 +225,9 @@ export default function IntroPage() {
               </div>
             </Reveal>
 
-            <div style={{ marginTop: 36 }}>
-              <Reveal>
-                <h3 style={{ fontSize: "1.2rem", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 16 }}>
-                  실제 상담 후기
-                </h3>
-              </Reveal>
-              <div className="reviews">
-                {REVIEWS.map((r, i) => (
-                  <Reveal key={r.name + r.date} delay={i * 60}>
-                    <figure className="review">
-                      <div className="review__top">
-                        <span className="review__car">{r.car}</span>
-                        <span className="review__method">{r.method}</span>
-                        <span className="review__stars" aria-label="5점 만점에 5점">
-                          ★★★★★
-                        </span>
-                      </div>
-                      <blockquote>
-                        <p>{r.body}</p>
-                      </blockquote>
-                      <figcaption className="review__by">
-                        {r.name} · {r.date.replace(/-/g, ".")}
-                      </figcaption>
-                    </figure>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-
             <Reveal>
               <div className="biz">
-                <b>카피아오토플랜 주식회사</b> · 대표 오영수 · 서울특별시 송파구 · 대표번호 {SITE.tel} ·
+                <b>카피아</b> · 대표 오영수 · 서울특별시 송파구 · 대표번호 {SITE.tel} ·
                 hello@carfia.co.kr
                 <br />
                 자동차금융 상품의 계약 체결 권한은 각 금융회사에 있으며, 카피아는 대출성 상품의
@@ -317,7 +308,7 @@ export default function IntroPage() {
             <a href={BOARDS.newsModel.path}>모델 상세 정보</a>
           </nav>
           <p className="ftr__legal">
-            <b>카피아오토플랜 주식회사</b> · 대표 오영수 · 서울특별시 송파구
+            <b>카피아</b> · 대표 오영수 · 서울특별시 송파구
             <br />
             대표번호 {SITE.tel} · hello@carfia.co.kr
           </p>

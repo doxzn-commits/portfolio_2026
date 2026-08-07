@@ -56,7 +56,8 @@ function JsonLd() {
       name: "카피아 소개 — 수입차 프로모션 비교 서비스",
       description: DEFINITION,
       inLanguage: "ko-KR",
-      dateModified: SITE.updatedAt,
+      datePublished: SITE.publishedAt,
+      dateModified: SITE.updatedAt, // = BUILD_DATE (재배포마다 today)
       isPartOf: { "@id": `${SITE.origin}/#org` },
     },
     {

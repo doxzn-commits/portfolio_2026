@@ -40,15 +40,22 @@ const OFFERS = [
 export default function Offerings() {
   return (
     <div>
-      {/* 프로모션 대표 기능 — 할인 추이 그래프 (우상향 애니메이션) */}
+      {/* 대표 강점 — 할인 추이 그래프(자사·타사 12개월 + 연식변경 + 살 타이밍) */}
       <div className="promo-feature">
         <div className="promo-feature__txt">
           <span className="offer__freq">할인 추이 그래프</span>
-          <h3>할인이 어떻게 움직이는지, 그래프로 보여드려요</h3>
-          <p>
-            내 차의 자사·타사 할인 추이를 한눈에. 지금이 살 때인지, 조금 더 기다릴 때인지 그래프가
-            말해줍니다.
-          </p>
+          <h3>지금이 살 때인지, 그래프가 말해줍니다</h3>
+          <ul className="strength__pts">
+            <li>
+              <b>자사·타사</b> 할인가를 12개월 추이로 나란히 비교
+            </li>
+            <li>
+              <b>연식변경</b> 시점을 그래프에 표시
+            </li>
+            <li>
+              지금이 <b>살 타이밍</b>인지 한눈에
+            </li>
+          </ul>
           <a className="offer__more" href={BOARDS.promotion.path}>
             프로모션 보러가기 <span className="btn__arrow" aria-hidden>→</span>
           </a>
